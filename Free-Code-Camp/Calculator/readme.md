@@ -1,4 +1,11 @@
 # Calculator Project
+ 
+In this project, I will try to reverse engineer the standard Windows calculator app and make a simplified version of it. 
 
-This is a project inspired in a Free Code Camp project.
-In this project, I will try to reverse engineer the Windows calculator app.
+
+## Challenges
+
+* use Bootstrap to organize the layout of the calculator and jQuery to make interactions with the DOM
+* use ',' as a separator of the integral part and the fractional part of the numbers instead of '.'
+* use CSS to stylize the calculator
+* find out the calculator logic and implement it in javascript

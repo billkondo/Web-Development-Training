@@ -1,11 +1,26 @@
 $(document).ready(function() {
-    let result = 0;          // result of all calculations so far
-    let cur = 0;             // current value being digited
-    let op = 0;              // current operation
+    
+    let result = 0;              // result of all calculations so far
+
+    let cur = 0;                    // current value being digited    
+    let curIntegerDisplay = [];     // integer part of current value
+    let curFractionalDisplay = [];  // fractional part of current value
+    
+    let op = 0;               
+    /* 
+        current operation
+        0: none
+        1: sum
+        2: multiplication
+        3: division
+        4: minus
+    */
+
     let startCalc = false;
     let numberStated = false;
-    let decimalFlag = false;
-    let dec = 0.1;
+
+    let fractionalFlag = false;  // flag to know if we are waiting for fractional digits
+    let dec = 0.1;               // a helper variable to indicate which postion the next fractional digit will go
 
     function applyOp() {        
         if(startCalc) {
@@ -17,15 +32,21 @@ $(document).ready(function() {
                     result *= cur;
                     break;
                 case 3: 
-                    result /= cur;
+                    if(!cur) {
+                        $('#screen1').html('&nbsp;');
+                        $('#screen2').html('Division By Zero');
+                        resetCalc();
+                        return;
+                    }
+                    else
+                        result /= cur;
+
                     break;
                 case 4: 
                     result -= cur;
                     break;
             }
 
-            cur = result;
-            displayResult();
             cur = 0;
         }
         else {
@@ -34,8 +55,13 @@ $(document).ready(function() {
             cur = 0;
         }
 
-        decimalFlag = false;
+        fractionalFlag = false;
         dec = 0.1;
+
+        displayResult(result);
+        console.log(result);
+        curIntegerDisplay = [];
+        curFractionalDisplay = [];
     }
 
     function displayOperations() {
@@ -57,26 +83,79 @@ $(document).ready(function() {
         }
     }
 
-    function displayResult() {
-        $('#screen2').html(cur);
+    function displayResult(x) {
+        
+        let number = x;
+        number = +number.toFixed(10);
+
+        integerPart = Math.floor(number);
+        fractionalPart = (number + "").split(".")[1];
+        
+        if(fractionalPart) {
+            $('#screen2').html(integerPart + ',' + fractionalPart);
+        }
+        else {
+            $('#screen2').html(integerPart);
+        }
+    }
+
+    function displayCurrentValue() {
+        integerPart = curIntegerDisplay.join("");
+        fractionalPart = curFractionalDisplay.join("");
+
+        if(fractionalPart.length > 0) $('#screen2').html(integerPart + ',' + fractionalPart);
+        else {
+            if(!fractionalFlag) {
+                $('#screen2').html(integerPart);
+            }
+            else {
+                $('#screen2').html(integerPart + ',');
+            }
+        }
     }
 
     function resetCalc() {
-        cur = 0;
+        /*
+            This function resets the calculator, so we reinitialize the variables
+        */
+
         result = 0;
+
+        cur = 0;
+        curIntegerDisplay = [];
+        curFractionalDisplay = [];
+
+        op = 0;
+
+        startCalc = false;
+
+        fractionalFlag = false;
+        dec = 0.1;
     }
 
     function getDigit(d) {
-        if(!decimalFlag) cur = cur * 10 + d;
+        /*
+            This function receives the current digit being pressed/clicked 
+        */
+
+        if(!fractionalFlag) {
+            cur = cur * 10 + d;
+            
+            curIntegerDisplay.push(d);
+        }
         else {
             cur = cur + dec * d;
             dec /= 10;
+
+            curFractionalDisplay.push(d);
         }
-        displayResult();
+
+        displayCurrentValue();
     }
 
     function getOp(x) {
        op = x;
+
        displayOperations();
        applyOp();
     }
@@ -87,7 +166,15 @@ $(document).ready(function() {
         displayOperations();
     }
 
-    function addDecimals() { decimalFlag = true; }
+    // active the decimals flag
+    function addDecimals() { 
+        fractionalFlag = true; 
+        displayCurrentValue();
+    }
+
+    function backSpace() {
+
+    }
 
     // digits buttons 
     $('#zeroButton').click(function()  { getDigit(0) } );
@@ -100,9 +187,8 @@ $(document).ready(function() {
     $('#sevenButton').click(function() { getDigit(7) } );
     $('#eightButton').click(function() { getDigit(8) } );
     $('#nineButton').click(function()  { getDigit(9) } );
-    // end digit button
 
-    // keypresses events
+    // keypress events
     $('body').on("keydown", function(event) {
         if(event.which >= 96 && event.which <= 105) 
             getDigit(event.which - 96);
@@ -114,33 +200,44 @@ $(document).ready(function() {
 
         if(event.which == 13) hitEnter();
         
-        if(event.which == 110) addDecimals();
+        // comma press
+        if(event.which == 110) addDecimals(); 0
+
+        // backspace press
+        if(event.which == 8) backSpace();
     });
 
     // correct buttons
     $('#AC').click(function() {
-        cur = 0;
-        result = 0;
-        operations = "";
-        waitingOp = false;
-        displayResult();
+        resetCalc();
+        displayCurrentValue();
     });
 
     $('#CE').click(function() {
+        /*
+            Reset the current value
+        */
+        
         cur = 0;
-        displayResult();
+        curIntegerDisplay = [];
+        curFractionalDisplay = [];
+        fractionalFlag = false;
+        dec = 0.1;
+
+        displayCurrentValue();
     }); 
     // end correct buttons
 
     $('#sign').click(function() {
         cur = -cur;
-        displayResult();
+        displayCurrentValue();
     });
 
+    // click operation buttons
     $('#sum').click(function()            { getOp(1); } );
     $('#multiplication').click(function() { getOp(2); } );
     $('#division').click(function()       { getOp(3); } );
     $('#minus').click(function()          { getOp(4); } );
-    $("#equals").click(function() { applyOp() } );
+    $("#equals").click(function()         { applyOp() } );
 
 });

@@ -88,7 +88,9 @@ $(document).ready(function() {
 
     function displayResult(x) {
         
-        let number = x;
+        console.log("result is " + x);
+
+        let number = Number(x);
         number = +number.toFixed(10);
 
         integerPart = Math.floor(number);
@@ -191,13 +193,12 @@ $(document).ready(function() {
                 if(applyOp()) {
                     displayOperations();
                     displayResult(result);
+                    resetCur();
                 }
             }
     }
 
     function hitEnter() {
-        $('.btn').unbind('click');
-
         if(applyOp()) {
             displayResult(result);
             chain = [];
@@ -216,16 +217,65 @@ $(document).ready(function() {
     }
 
     function backSpace() {
+        if(!chain.length)
+            return;
 
-    }
-
-    function changeSignal() {
-        if(!chain.length) result = -result;
-        else {
-            cur = -cur;
+        if(curFractionalDisplay.length > 0) {
+            let d = curFractionalDisplay.pop();
+            dec *= 10;
+            cur = cur - dec * d;
             chain.pop();
             chain.push(cur);
         }
+        else
+            if(fractionalFlag) 
+                fractionalFlag = false;
+            else
+                if(curIntegerDisplay.length > 0) {
+                    let d = curIntegerDisplay.pop();
+                    cur = parseInt(cur / 10);
+                    chain.pop();
+                    chain.push(cur);
+                }
+
+        displayCurrentValue();
+    }
+
+    function changeSignal() {
+        let len = chain.length;
+        
+        if(!len) {
+            result = -result;
+            cur = result;
+
+            let number = cur;
+            number = +number.toFixed(10);
+
+            integerPart = Math.floor(Math.abs(number));
+            fractionalPart = (number + "").split(".")[1];
+
+            if(integerPart) 
+                curIntegerDisplay = integerPart.toString().split("");
+            else
+                curIntegerDisplay.push(0);
+
+            if(fractionalPart) curFractionalDisplay = fractionalPart.toString().split("");
+
+            chain.push(result);
+        }
+        else {
+            if(isOP(chain[len - 1])) {
+                cur = -result;
+                chain.push(cur);
+            }
+            else {
+                cur = -cur;
+                chain.pop();
+                chain.push(cur);
+            }
+        }
+
+        displayCurrentValue();
     }
 
     // digits buttons 
@@ -242,6 +292,8 @@ $(document).ready(function() {
 
     // keypress events
     $('body').keydown(function(event) {
+        event.preventDefault();
+
         if(event.which >= 96 && event.which <= 105) {
             getDigit(event.which - 96);
 
@@ -263,7 +315,6 @@ $(document).ready(function() {
     // correct buttons
     $('#AC').click(function() {
         resetCalc();
-        cur = 0;
         displayOperations();
         displayCurrentValue();
     });
@@ -273,12 +324,7 @@ $(document).ready(function() {
             Reset the current value
         */
         
-        cur = 0;
-        curIntegerDisplay = [];
-        curFractionalDisplay = [];
-        fractionalFlag = false;
-        dec = 0.1;
-
+        resetCur();
         displayCurrentValue();
     }); 
     // end correct buttons

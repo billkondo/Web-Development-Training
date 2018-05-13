@@ -1,85 +1,88 @@
 $(document).ready(function() {
     
-    let result = 0;              // result of all calculations so far
+    let result = 0;                 // result of all calculations so far
 
     let cur = 0;                    // current value being digited    
     let curIntegerDisplay = [];     // integer part of current value
     let curFractionalDisplay = [];  // fractional part of current value
-    
-    let op = 0;               
-    /* 
-        current operation
-        0: none
-        1: sum
-        2: multiplication
-        3: division
-        4: minus
-    */
 
-    let startCalc = false;
-    let numberStated = false;
+    let fractionalFlag = false;     // flag to know if we are waiting for fractional digits
+    let dec = 0.1;                  // a helper variable to indicate which postion the next fractional digit will go
 
-    let fractionalFlag = false;  // flag to know if we are waiting for fractional digits
-    let dec = 0.1;               // a helper variable to indicate which postion the next fractional digit will go
+    let chain = [];                 //a list with all operations so far  
 
-    function applyOp() {        
-        if(startCalc) {
-            switch(op) {
-                case 1:
-                    result += cur;
-                    break;
-                case 2: 
-                    result *= cur;
-                    break;
-                case 3: 
-                    if(!cur) {
-                        $('#screen1').html('&nbsp;');
-                        $('#screen2').html('Division By Zero');
-                        resetCalc();
-                        return;
-                    }
-                    else
-                        result /= cur;
+    var operations = {};
+    operations['+'] = 1;
+    operations['*'] = 2;
+    operations['/'] = 3;
+    operations['-'] = 4;
 
-                    break;
-                case 4: 
-                    result -= cur;
-                    break;
-            }
+    var mapOP = {};
+    mapOP[1] = '+';
+    mapOP[2] = '*';
+    mapOP[3] = '/';
+    mapOP[4] = '-';
 
-            cur = 0;
-        }
-        else {
-            result = cur;
-            startCalc = true;
-            cur = 0;
-        }
+    function isOP(c) {
+        for(let key in operations)
+            if(key === c)
+                return true;
+
+        return false;
+    }
+
+    function resetCur() {
+        cur = 0;
+        curIntegerDisplay = [];
+        curFractionalDisplay = [];
 
         fractionalFlag = false;
         dec = 0.1;
+    }
 
-        displayResult(result);
-        console.log(result);
-        curIntegerDisplay = [];
-        curFractionalDisplay = [];
+    function applyOp() {  
+        let len = chain.length;
+        result = 0;
+        
+        if(!len) return;
+        
+        result = chain[0];
+        for(let i = 2; i < len; i += 2) {
+            let op = operations[chain[i - 1]];
+            let x = Number(chain[i]);
+
+            switch(op) {
+                case 1:
+                    result += x;
+                    break;
+                case 2:
+                    result *= x;
+                    break;
+                case 3:
+                    if(!x) {
+                        $('#screen1').html('&nbsp;');
+                        $('#screen2').html('Division by Zero ?');
+                        resetCalc();
+                        return false;
+                    }
+                    else
+                        result /= x;
+                    break;
+                case 4:
+                    result -= x;
+                    break;
+            }
+        } 
+
+        return true;
     }
 
     function displayOperations() {
-        switch(op) {
-            case 1:
-                $('#screen1').html('+');
-                break;
-            case 2:
-                $('#screen1').html('*');
-                break;
-            case 3:
-                $('#screen1').html('/');
-                break;
-            case 4:
-                $('#screen1').html('-');
-                break;
-            default:
-                $('#screen1').html('&nbsp;');
+        if(chain.length) {
+            $('#screen1').html(chain.join(" "));
+        }
+        else {
+            $('#screen1').html('&nbsp;');
         }
     }
 
@@ -103,6 +106,13 @@ $(document).ready(function() {
         integerPart = curIntegerDisplay.join("");
         fractionalPart = curFractionalDisplay.join("");
 
+        if(!cur) {
+            $('#screen2').html(0);
+            return;
+        }
+
+        if(cur < 0) integerPart = '-' + integerPart;
+
         if(fractionalPart.length > 0) $('#screen2').html(integerPart + ',' + fractionalPart);
         else {
             if(!fractionalFlag) {
@@ -120,17 +130,8 @@ $(document).ready(function() {
         */
 
         result = 0;
-
-        cur = 0;
-        curIntegerDisplay = [];
-        curFractionalDisplay = [];
-
-        op = 0;
-
-        startCalc = false;
-
-        fractionalFlag = false;
-        dec = 0.1;
+        resetCur();
+        chain = [];
     }
 
     function getDigit(d) {
@@ -138,9 +139,17 @@ $(document).ready(function() {
             This function receives the current digit being pressed/clicked 
         */
 
+        let len = chain.length;
+
+        if(len > 0 && isOP(chain[len - 1])) 
+            resetCur();
+        else
+            if(len > 0) 
+                chain.pop();
+
         if(!fractionalFlag) {
             cur = cur * 10 + d;
-            
+
             curIntegerDisplay.push(d);
         }
         else {
@@ -150,30 +159,73 @@ $(document).ready(function() {
             curFractionalDisplay.push(d);
         }
 
+        chain.push(cur);
         displayCurrentValue();
     }
 
     function getOp(x) {
-       op = x;
+        /*
+            This function receives a operator 
+        */
+       
+       let len = chain.length;
 
-       displayOperations();
-       applyOp();
+       if(!len) {
+            chain.push(result);
+            chain.push(mapOP[x]);
+            displayOperations();
+           
+            if(applyOp()) {
+                displayResult(result);
+            }
+       }
+       else
+            if(isOP(chain[len - 1])) {
+                chain.pop();
+                chain.push(mapOP[x]);
+                displayOperations();
+                displayResult(result);
+            }
+            else {
+                chain.push(mapOP[x]);
+                if(applyOp()) {
+                    displayOperations();
+                    displayResult(result);
+                }
+            }
     }
 
     function hitEnter() {
-        applyOp();
-        op = 0;
-        displayOperations();
+        $('.btn').unbind('click');
+
+        if(applyOp()) {
+            displayResult(result);
+            chain = [];
+            resetCur();
+            displayOperations();
+        }
     }
 
     // active the decimals flag
     function addDecimals() { 
+        if(!curIntegerDisplay.length) {
+            curIntegerDisplay.push(0);
+        }
         fractionalFlag = true; 
         displayCurrentValue();
     }
 
     function backSpace() {
 
+    }
+
+    function changeSignal() {
+        if(!chain.length) result = -result;
+        else {
+            cur = -cur;
+            chain.pop();
+            chain.push(cur);
+        }
     }
 
     // digits buttons 
@@ -189,10 +241,11 @@ $(document).ready(function() {
     $('#nineButton').click(function()  { getDigit(9) } );
 
     // keypress events
-    $('body').on("keydown", function(event) {
-        if(event.which >= 96 && event.which <= 105) 
+    $('body').keydown(function(event) {
+        if(event.which >= 96 && event.which <= 105) {
             getDigit(event.which - 96);
 
+        }
         if(event.which == 107) getOp(1);
         if(event.which == 106) getOp(2);
         if(event.which == 111) getOp(3);
@@ -201,7 +254,7 @@ $(document).ready(function() {
         if(event.which == 13) hitEnter();
         
         // comma press
-        if(event.which == 110) addDecimals(); 0
+        if(event.which == 110) addDecimals(); 
 
         // backspace press
         if(event.which == 8) backSpace();
@@ -210,6 +263,8 @@ $(document).ready(function() {
     // correct buttons
     $('#AC').click(function() {
         resetCalc();
+        cur = 0;
+        displayOperations();
         displayCurrentValue();
     });
 
@@ -229,7 +284,7 @@ $(document).ready(function() {
     // end correct buttons
 
     $('#sign').click(function() {
-        cur = -cur;
+        changeSignal();
         displayCurrentValue();
     });
 
@@ -238,6 +293,6 @@ $(document).ready(function() {
     $('#multiplication').click(function() { getOp(2); } );
     $('#division').click(function()       { getOp(3); } );
     $('#minus').click(function()          { getOp(4); } );
-    $("#equals").click(function()         { applyOp() } );
+    $("#equals").click(function()         { hitEnter(); } );
 
 });

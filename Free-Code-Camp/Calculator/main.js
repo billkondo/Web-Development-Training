@@ -1,5 +1,4 @@
 $(document).ready(function() {
-    
     let result = 0;                 // result of all calculations so far
 
     let cur = 0;                    // current value being digited    
@@ -87,8 +86,6 @@ $(document).ready(function() {
     }
 
     function displayResult(x) {
-        
-        console.log("result is " + x);
 
         let number = Number(x);
         number = +number.toFixed(10);
@@ -279,16 +276,16 @@ $(document).ready(function() {
     }
 
     // digits buttons 
-    $('#zeroButton').click(function()  { getDigit(0) } );
-    $('#oneButton').click(function()   { getDigit(1) } );
-    $('#twoButton').click(function()   { getDigit(2) } );
-    $('#threeButton').click(function() { getDigit(3) } );
-    $('#fourButton').click(function()  { getDigit(4) } );
-    $('#fiveButton').click(function()  { getDigit(5) } );
-    $('#sixButton').click(function()   { getDigit(6) } );
-    $('#sevenButton').click(function() { getDigit(7) } );
-    $('#eightButton').click(function() { getDigit(8) } );
-    $('#nineButton').click(function()  { getDigit(9) } );
+    $('#zeroButton').click(function()  { getDigit(0); } );
+    $('#oneButton').click(function()   { getDigit(1); } );
+    $('#twoButton').click(function()   { getDigit(2); } );
+    $('#threeButton').click(function() { getDigit(3); } );
+    $('#fourButton').click(function()  { getDigit(4); } );
+    $('#fiveButton').click(function()  { getDigit(5); } );
+    $('#sixButton').click(function()   { getDigit(6); } );
+    $('#sevenButton').click(function() { getDigit(7); } );
+    $('#eightButton').click(function() { getDigit(8); } );
+    $('#nineButton').click(function()  { getDigit(9); } );
 
     // keypress events
     $('body').keydown(function(event) {

@@ -6,7 +6,7 @@ body {
     margin-top: 10%;
 
     background-color:gray; 
-    background: linear-gradient(to left top, gray, rgba(128, 128, 128, 0.692));
+    background: linear-gradient(to left top, rgb(83, 83, 83), rgba(128, 128, 128, 0.692));
 
     width: 220px;
     height: 300px;
@@ -24,6 +24,7 @@ body {
 
 p {
     color: black;
+
     background: rgb(104, 92, 83);
     background: linear-gradient(to left, rgb(104, 92, 83), rgb(104, 92, 83, 0.5));
     
@@ -49,6 +50,8 @@ button {
 
     font-size: 15px;
 
+    background: linear-gradient(to left top, rgb(180, 179, 179), rgba(56, 56, 56, 0.541));
+
     box-sizing: border-box;
     box-shadow: 3px 3px 5px #333;
     text-shadow: 0 1px 1px black;
@@ -64,6 +67,8 @@ button:focus {
 }
 
 button:active {
+    background-image: none; 
+    background-color: rgb(180, 179, 179);
     position: relative;
     top: 2px;
     box-shadow: none;
@@ -96,10 +101,12 @@ button:active {
     margin-bottom: 10px;
 }
 
-#CE, #AC {
+#CE, #AC, #eraserButton {
     background-color: rgba(201, 12, 12, 0.76); 
+    background: linear-gradient(to left top, rgba(201, 12, 12, 0.76), rgba(10, 80, 192, 0.788));
 }
 
 #equals {
     background-color: rgb(61, 137, 209);
+    background: linear-gradient(to left top, rgb(61, 137, 209), rgba(131, 6, 189, 0.788));
 }

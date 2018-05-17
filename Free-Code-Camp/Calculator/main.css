@@ -66,9 +66,7 @@ button:focus {
     outline: none;
 }
 
-button:active {
-    background-image: none; 
-    background-color: rgb(180, 179, 179);
+button:active, .buttonActive {
     position: relative;
     top: 2px;
     box-shadow: none;

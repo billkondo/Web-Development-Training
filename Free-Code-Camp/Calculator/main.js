@@ -22,6 +22,19 @@ $(document).ready(function() {
     mapOP[3] = '/';
     mapOP[4] = '-';
 
+    var Numbers = {
+        0: "zero",
+        1: "one",
+        2: "two", 
+        3: "three", 
+        4: "four",
+        5: "five",
+        6: "six", 
+        7: "seven", 
+        8: "eight", 
+        9: "nine"
+    }
+
     function isOP(c) {
         for(let key in operations)
             if(key === c)
@@ -275,6 +288,13 @@ $(document).ready(function() {
         displayCurrentValue();
     }
 
+    function animationPress(s) {
+        var animationClick = $(s).toggleClass('buttonActive');
+        setTimeout(function() {
+            $(s).toggleClass('buttonActive');;
+        }, 50);
+    }
+
     // digits buttons 
     $('#zeroButton').click(function()  { getDigit(0); } );
     $('#oneButton').click(function()   { getDigit(1); } );
@@ -292,21 +312,32 @@ $(document).ready(function() {
         event.preventDefault();
 
         if(event.which >= 96 && event.which <= 105) {
+            let btn = '#' + Numbers[event.which - 96] + 'Button';
+            console.log(btn);
+            animationPress(btn); 
             getDigit(event.which - 96);
-
         }
-        if(event.which == 107) getOp(1);
-        if(event.which == 106) getOp(2);
-        if(event.which == 111) getOp(3);
-        if(event.which == 109) getOp(4);
+        if(event.which == 107) { animationPress('#sum'); getOp(1); }
+        if(event.which == 106) { animationPress('#multiplication'); getOp(2); }
+        if(event.which == 111) { animationPress('#division'); getOp(3); }
+        if(event.which == 109) { animationPress('#minus'); getOp(4); }
 
-        if(event.which == 13) hitEnter();
-        
+        if(event.which == 13) {
+            animationPress('#equals');
+            hitEnter();
+        }
+
         // comma press
-        if(event.which == 110) addDecimals(); 
+        if(event.which == 110) {
+            animationPress('#comma');
+            addDecimals(); 
+        }
 
         // backspace press
-        if(event.which == 8) backSpace();
+        if(event.which == 8) { 
+            animationPress('#eraserButton');
+            backSpace();
+        }
     });
 
     // correct buttons
@@ -324,6 +355,9 @@ $(document).ready(function() {
         resetCur();
         displayCurrentValue();
     }); 
+
+    $('#eraserButton').click(function() { backSpace(); } );
+
     // end correct buttons
 
     $('#sign').click(function() {

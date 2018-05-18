@@ -63,6 +63,12 @@ $(document).ready(function() {
 
         ret = []; // return value
         let cnt = 0;
+        let flag = false;
+
+        if(l.length && l[0] === '-') {
+            l.shift();
+            flag = true;
+        }
 
         for(let i = l.length - 1; i >= 0; i -= 1) {
             cnt = cnt + 1;
@@ -74,7 +80,12 @@ $(document).ready(function() {
             }
         }
 
+        if(flag) {
+            ret.push('-');
+            l.unshift('-');
+        }
         ret.reverse();
+
         return ret.join("");
     }
 
@@ -101,12 +112,14 @@ $(document).ready(function() {
         let number = Number(x);
         number = +number.toFixed(maxDigits);
 
-        integerPart = Math.floor(number).toString();
-        fractionalPart = (number + "").split(".")[1];
+        let integerPart = Math.trunc(number).toString();
+        let fractionalPart = (number + "").split(".")[1];
 
-        if(fractionalPart)
+        if(fractionalPart) {
+            if(!Math.trunc(number) && x < 0) return '-' + displayInteger(integerPart.split("")) + ',' + fractionalPart;
             return displayInteger(integerPart.split("")) + ',' + fractionalPart;
-        
+        }
+
         return displayInteger(integerPart.split(""));
     }
 
@@ -148,6 +161,7 @@ $(document).ready(function() {
     }
 
     function displayOperations() {
+        
         if(chainDisplay.length) {
             $('#screen1').html(chainDisplay.join(" "));
         }
@@ -159,17 +173,17 @@ $(document).ready(function() {
     function displayResult(x) { $('#screen2').html(getDisplayResult(result)); }
 
     function displayCurrentValue() {
-        integerPart = displayInteger(curIntegerDisplay);
-        fractionalPart = curFractionalDisplay.join("");
+        let integerPart = displayInteger(curIntegerDisplay);
+        let fractionalPart = curFractionalDisplay.join("");
 
-        if(!cur) {
+        if(!cur && !fractionalFlag) {
             $('#screen2').html(0);
             return;
         }
 
-        if(cur < 0) integerPart = '-' + integerPart;
-
-        if(fractionalPart.length > 0) $('#screen2').html(integerPart + ',' + fractionalPart);
+        if(fractionalPart.length > 0) {
+            $('#screen2').html(integerPart + ',' + fractionalPart);
+        }
         else {
             if(!fractionalFlag) {
                 $('#screen2').html(integerPart);
@@ -320,8 +334,8 @@ $(document).ready(function() {
             let number = cur;
             number = +number.toFixed(maxDigits);
 
-            integerPart = Math.floor(Math.abs(number));
-            fractionalPart = (number + "").split(".")[1];
+            let integerPart = Math.trunc(number);
+            let fractionalPart = (number + "").split(".")[1];
 
             if(integerPart) 
                 curIntegerDisplay = integerPart.toString().split("");
@@ -340,6 +354,9 @@ $(document).ready(function() {
                 chainDisplay.push(getDisplayResult());
             }
             else {
+                if(cur < 0) curIntegerDisplay.shift();
+                else curIntegerDisplay.unshift('-');
+                
                 cur = -cur;
                 chain.pop();
                 chain.push(cur);
@@ -408,7 +425,7 @@ $(document).ready(function() {
     }); 
 
     $('#eraserButton').click(function() { backSpace(); } );
-    
+
     $('#sign').click(function() {
         changeSignal();
         displayCurrentValue();

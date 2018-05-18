@@ -27,6 +27,8 @@ p {
 
     background: rgb(104, 92, 83);
     background: linear-gradient(to left, rgb(104, 92, 83), rgb(104, 92, 83, 0.5));
+
+    box-sizing: border-box;
     
     width: 195px;
     height: 30px;
@@ -37,11 +39,12 @@ p {
   
     border-style: inset;
     
-    padding-left: 10px; 
-    padding-bottom: 5px;
-    
-    box-sizing: border-box;
+    padding-right: 15px; 
+    padding-bottom: 7px;
+
     text-shadow: 0 1px 1px black;
+
+    text-align: right;
 }
 
 button {
@@ -76,7 +79,7 @@ button:active, .buttonActive {
 #screen1 {
     text-shadow: none;
     color: rgba(0, 0, 0, 0.678);
-    font-size: 7px;
+    font-size: 10px;
 
     margin-top: 10px;
     margin-bottom: -5px;
@@ -89,6 +92,7 @@ button:active, .buttonActive {
 
 #screen2 {
     border-top: none;
+    font-size: 19px;
     margin-bottom: 10px;
 
     border-bottom-left-radius: 10px;

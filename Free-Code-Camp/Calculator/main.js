@@ -35,6 +35,8 @@ $(document).ready(function() {
         9: "nine"
     }
 
+    const maxDigits = 12;
+
     function isOP(c) {
         for(let key in operations)
             if(key === c)
@@ -61,14 +63,14 @@ $(document).ready(function() {
         result = chain[0];
         for(let i = 2; i < len; i += 2) {
             let op = operations[chain[i - 1]];
-            let x = Number(chain[i]);
+            let x = parseFloat(chain[i]);
 
             switch(op) {
                 case 1:
-                    result += x;
+                    result = parseFloat(parseFloat(result + x).toFixed(maxDigits));
                     break;
                 case 2:
-                    result *= x;
+                    result = parseFloat(parseFloat(result * x).toFixed(maxDigits))
                     break;
                 case 3:
                     if(!x) {
@@ -78,10 +80,10 @@ $(document).ready(function() {
                         return false;
                     }
                     else
-                        result /= x;
+                        result = parseFloat(parseFloat(result / x).toFixed(maxDigits));
                     break;
                 case 4:
-                    result -= x;
+                    result = parseFloat(parseFloat(result - x).toFixed(maxDigits));
                     break;
             }
         } 
@@ -101,7 +103,7 @@ $(document).ready(function() {
     function displayResult(x) {
 
         let number = Number(x);
-        number = +number.toFixed(10);
+        number = +number.toFixed(maxDigits);
 
         integerPart = Math.floor(number);
         fractionalPart = (number + "").split(".")[1];
@@ -160,13 +162,13 @@ $(document).ready(function() {
                 chain.pop();
 
         if(!fractionalFlag) {
-            cur = cur * 10 + d;
+            cur = parseFloat(parseFloat(cur * 10 + d).toFixed(maxDigits));
 
             curIntegerDisplay.push(d);
         }
         else {
-            cur = cur + dec * d;
-            dec /= 10;
+            cur = parseFloat((parseFloat(cur + dec * d)).toFixed(maxDigits));
+            dec = parseFloat((dec / 10).toFixed(maxDigits));
 
             curFractionalDisplay.push(d);
         }
@@ -232,8 +234,9 @@ $(document).ready(function() {
 
         if(curFractionalDisplay.length > 0) {
             let d = curFractionalDisplay.pop();
-            dec *= 10;
-            cur = cur - dec * d;
+            
+            dec = parseFloat(parseFloat(dec * 10).toFixed(maxDigits));
+            cur = parseFloat(parseFloat(cur - dec * d).toFixed(maxDigits));
             chain.pop();
             chain.push(cur);
         }
@@ -243,7 +246,7 @@ $(document).ready(function() {
             else
                 if(curIntegerDisplay.length > 0) {
                     let d = curIntegerDisplay.pop();
-                    cur = parseInt(cur / 10);
+                    cur = parseFloat(Math.floor(parseFloat(cur / 10)).toFixed(maxDigits));
                     chain.pop();
                     chain.push(cur);
                 }
@@ -259,7 +262,7 @@ $(document).ready(function() {
             cur = result;
 
             let number = cur;
-            number = +number.toFixed(10);
+            number = +number.toFixed(maxDigits);
 
             integerPart = Math.floor(Math.abs(number));
             fractionalPart = (number + "").split(".")[1];
@@ -313,7 +316,6 @@ $(document).ready(function() {
 
         if(event.which >= 96 && event.which <= 105) {
             let btn = '#' + Numbers[event.which - 96] + 'Button';
-            console.log(btn);
             animationPress(btn); 
             getDigit(event.which - 96);
         }
@@ -364,6 +366,8 @@ $(document).ready(function() {
         changeSignal();
         displayCurrentValue();
     });
+
+    $('#comma').click(function() { addDecimals(); });
 
     // click operation buttons
     $('#sum').click(function()            { getOp(1); } );

@@ -212,6 +212,8 @@ $(document).ready(function() {
 
         let len = chain.length;
 
+        if(!len && !d) return;
+
         if(len > 0 && isOP(chain[len - 1])) 
             resetCur();
         else
@@ -285,10 +287,13 @@ $(document).ready(function() {
         }
     }
 
-    // active the decimals flag
     function addDecimals() { 
+        /*
+            Active the decimals flag 
+        */
         if(!curIntegerDisplay.length) {
             curIntegerDisplay.push(0);
+            chain.push(0);
         }
         fractionalFlag = true; 
         displayCurrentValue();
@@ -337,10 +342,12 @@ $(document).ready(function() {
             let integerPart = Math.trunc(number);
             let fractionalPart = (number + "").split(".")[1];
 
-            if(integerPart) 
-                curIntegerDisplay = integerPart.toString().split("");
+            if(!integerPart) {
+                if(cur < 0) curIntegerDisplay = ['-', 0];
+                else curIntegerDisplay.push(0);
+            } 
             else
-                curIntegerDisplay.push(0);
+                curIntegerDisplay = integerPart.toString().split("");
 
             if(fractionalPart) curFractionalDisplay = fractionalPart.toString().split("");
 

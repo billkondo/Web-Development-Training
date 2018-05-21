@@ -11,19 +11,19 @@ $(document).ready(function() {
     let chain = [];                 // a list with all operations so far  
     let chainDisplay = [];          // a list with all operations so far in the correct format
 
-    var operations = {};
+    let operations = {};
     operations['+'] = 1;
     operations['*'] = 2;
     operations['/'] = 3;
     operations['-'] = 4;
 
-    var mapOP = {};
+    let mapOP = {};
     mapOP[1] = '+';
     mapOP[2] = '*';
     mapOP[3] = '/';
     mapOP[4] = '-';
 
-    var Numbers = {
+    let Numbers = {
         0: "zero",
         1: "one",
         2: "two", 
@@ -199,7 +199,7 @@ $(document).ready(function() {
             This function resets the calculator, so we reinitialize the variables
         */
 
-        result = 0;
+        result = 0;     
         resetCur();
         chain = [];
         chainDisplay = [];
@@ -212,7 +212,7 @@ $(document).ready(function() {
 
         let len = chain.length;
 
-        if(!len && !d) return;
+        if(!curIntegerDisplay.length && !d) return;
 
         if(len > 0 && isOP(chain[len - 1])) 
             resetCur();
@@ -291,9 +291,13 @@ $(document).ready(function() {
         /*
             Active the decimals flag 
         */
+
+        if(fractionalFlag) return;
+
         if(!curIntegerDisplay.length) {
             curIntegerDisplay.push(0);
             chain.push(0);
+            chainDisplay.push(0);
         }
         fractionalFlag = true; 
         displayCurrentValue();
@@ -314,16 +318,25 @@ $(document).ready(function() {
             chainDisplay.push(getDisplayCur());
         }
         else
-            if(fractionalFlag) 
+            if(fractionalFlag) {
                 fractionalFlag = false;
+
+                if(curIntegerDisplay.length === 1 && !chain[chain.length - 1]) {
+                    chain.pop();
+                    curIntegerDisplay.pop();
+                    chainDisplay.pop();
+                }
+            }
             else
                 if(curIntegerDisplay.length > 0) {
                     let d = curIntegerDisplay.pop();
                     cur = parseFloat(Math.floor(parseFloat(cur / 10)).toFixed(maxDigits));
                     chain.pop();
-                    chain.push(cur);
                     chainDisplay.pop();
-                    chainDisplay.push(getDisplayCur());
+                    if(cur) {
+                        chain.push(cur);
+                        chainDisplay.push(getDisplayCur());
+                    }
                 }
 
         displayCurrentValue();
@@ -356,13 +369,14 @@ $(document).ready(function() {
         }
         else {
             if(isOP(chain[len - 1])) {
-                cur = -result;
+                cur = 0;
+                curIntegerDisplay.push(0);
                 chain.push(cur);
                 chainDisplay.push(getDisplayResult());
             }
             else {
                 if(cur < 0) curIntegerDisplay.shift();
-                else curIntegerDisplay.unshift('-');
+                else if(cur > 0) curIntegerDisplay.unshift('-');
                 
                 cur = -cur;
                 chain.pop();

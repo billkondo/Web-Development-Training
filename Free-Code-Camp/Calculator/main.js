@@ -37,6 +37,7 @@ $(document).ready(function() {
     }
 
     const maxDigits = 12;
+    const maxDecimals = 6;
 
     function isOP(c) {
         for(let key in operations)
@@ -110,7 +111,7 @@ $(document).ready(function() {
         */
 
         let number = Number(x);
-        number = +number.toFixed(maxDigits);
+        number = +number.toFixed(maxDecimals);
 
         let integerPart = Math.trunc(number).toString();
         let fractionalPart = (number + "").split(".")[1];
@@ -211,6 +212,8 @@ $(document).ready(function() {
         */
 
         let len = chain.length;
+
+        if(curIntegerDisplay.length + curFractionalDisplay.length > maxDigits) return;
 
         if(!curIntegerDisplay.length && !d) return;
 

@@ -371,12 +371,8 @@ $(document).ready(function() {
             chainDisplay.push(getDisplayCur());
         }
         else {
-            if(isOP(chain[len - 1])) {
-                cur = 0;
-                curIntegerDisplay.push(0);
-                chain.push(cur);
-                chainDisplay.push(getDisplayResult());
-            }
+            if(isOP(chain[len - 1])) 
+                return;
             else {
                 if(cur < 0) curIntegerDisplay.shift();
                 else if(cur > 0) curIntegerDisplay.unshift('-');

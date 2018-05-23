@@ -171,7 +171,9 @@ $(document).ready(function() {
         }
     }
 
-    function displayResult(x) { $('#screen2').html(getDisplayResult(result)); }
+    function displayResult(x) { 
+        $('#screen2').html(getDisplayResult(x)); 
+    }
 
     function displayCurrentValue() {
         let integerPart = displayInteger(curIntegerDisplay);
@@ -348,28 +350,8 @@ $(document).ready(function() {
     function changeSignal() {
         let len = chain.length;
         
-        if(!len) {
-            result = -result;
-            cur = result;
-
-            let number = cur;
-            number = +number.toFixed(maxDigits);
-
-            let integerPart = Math.trunc(number);
-            let fractionalPart = (number + "").split(".")[1];
-
-            if(!integerPart) {
-                if(cur < 0) curIntegerDisplay = ['-', 0];
-                else curIntegerDisplay.push(0);
-            } 
-            else
-                curIntegerDisplay = integerPart.toString().split("");
-
-            if(fractionalPart) curFractionalDisplay = fractionalPart.toString().split("");
-
-            chain.push(result);
-            chainDisplay.push(getDisplayCur());
-        }
+        if(!len) 
+            return;
         else {
             if(isOP(chain[len - 1])) 
                 return;

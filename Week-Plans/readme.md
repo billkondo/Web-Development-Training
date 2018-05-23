@@ -15,5 +15,5 @@ In this project, we will build a to-do list in order to help the organization of
 
 ### Challenges
 
-* Use just Javascript to develop the logic of the program and the dom manipulation (i.e., no frameworks, jquery ...)
+* Use just Javascript to develop the logic of the program and the DOM manipulation (i.e., no frameworks, jquery ...)
 * Use just CSS to develop the style of the program (i.e., no Bootstrap)

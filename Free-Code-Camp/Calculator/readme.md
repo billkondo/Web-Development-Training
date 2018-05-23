@@ -1,6 +1,6 @@
 # Calculator Project
  
-In this project, I will try to reverse engineer the standard Windows calculator app and make a simplified version of it. 
+In this project, we will try to reverse engineer the standard Windows calculator app and make a simplified version of it. 
 
 
 ## Challenges

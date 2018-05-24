@@ -2,20 +2,46 @@ body {
     background-color: rgba(90, 86, 86, 0.431);
 }
 
-#board {
-    background-color: rgb(17, 82, 17);
-
-    height: 600px;
-    width: 600px;
-    
+#table {
+    box-sizing: border-box;
     margin: 200px auto;
-    
-    border-collapse: collapse;
 
-    border: 30px solid rgba(230, 151, 6, 0.733);
-    border-radius: 30px;
+    background-color: rgba(230, 151, 6, 0.733); 
+
+    height: 700px;
+    width: 660px;
+
+    overflow: auto;
+
+    border-radius: 40px; 
+
+    
+    box-shadow: 10px 0px 20px #333, 
+                -10px 0 20px #333, 
+                0 30px 20px -10px #333,
+                10px 10px 20px rgba(173, 114, 5, 0.733) inset,
+                -10px -10px 20px rgba(173, 114, 5, 0.733) inset;
 }
 
+#board {
+    box-sizing: border-box;
+    position: relative;
+   
+    background-color: rgb(17, 82, 17);
+    background: radial-gradient(rgb(21, 121, 21), rgb(3, 65, 6)); 
+
+    height: 600px; 
+    width: 600px;
+
+    margin-top: 70px;
+    margin-left: 30px;
+    
+    border-collapse: collapse;
+    border-radius: 40px;
+
+    box-shadow: 10px 10px 20px rgb(3, 59, 3) inset,
+                -10px -10px 20px rgb(1, 49, 1) inset;
+}
 
 /* Start Menu Style */
 
@@ -38,29 +64,33 @@ body {
 
     font-family: cursive;
     font-size: 50px;
+
+    text-shadow: 6px 6px 6px #333;
 }
 
 button {
-    border: none;
     box-sizing: border-box;
+    outline: none;
+    border: none;
 
-    text-align: center;
+    text-shadow: 6px 6px 6px #333;
 
-    color: rgba(245, 241, 241, 0.973);
-    background-color: rgb(17, 82, 17); 
-
+    color: white;
     font-family: cursive;
-    font-size: 70px;
-    
+
+    font-size: 50px; 
+
     height: 100px;
     width: 200px;
-    
-    margin-left: 50px;
+
+    background-color: inherit; 
+
+    margin-left: 50px; 
 }
 
 button:hover {
-    border: 2px dashed gray;
-    border-radius: 30px;
+    border: 3px dashed rgba(245, 241, 241, 0.384);
+    border-radius: 20px;
     color: rgba(245, 241, 241, 0.384); 
 }
 
@@ -75,22 +105,21 @@ button:focus {
 }
 
 #backButton {
-    font-size: 50px;
-    margin-top: 70px;
-    margin-left: 200px;
+    margin-top: 50px;
+    margin-left: 180px;
+    font-size: 30px;
 }
-
-
 
 #game-menu {
     display: none;
 }
 
-#square {
+.square {
     display: inline-grid;
+    color: white;
 
     box-sizing: border-box;
-    border: 3px solid red;
+    border: 2px solid white;
 
     font-family: cursive;
       
@@ -98,16 +127,27 @@ button:focus {
     vertical-align: middle;
     line-height: 200px;
 
+ 
     font-size: 100px;
 
     margin-right: -4px;
     width: 200px;
     height: 200px;
-
-
 }
 
-#row {
-    box-sizing: border-box;
-    display: block;
+.row > div:first-child {
+    border-left: 0;
 }
+
+.row > div:last-child {
+    border-right: 0;
+}
+
+#game-menu > .row:first-child .square {
+    border-top: 0;
+}   
+
+#game-menu > .row:last-child .square {
+    border-bottom: 0;
+}    
+

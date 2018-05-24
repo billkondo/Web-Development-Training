@@ -1,0 +1,113 @@
+body {
+    background-color: rgba(90, 86, 86, 0.431);
+}
+
+#board {
+    background-color: rgb(17, 82, 17);
+
+    height: 600px;
+    width: 600px;
+    
+    margin: 200px auto;
+    
+    border-collapse: collapse;
+
+    border: 30px solid rgba(230, 151, 6, 0.733);
+    border-radius: 30px;
+}
+
+
+/* Start Menu Style */
+
+#start-menu {
+    display: block;
+}
+
+#question {
+    color: rgba(245, 241, 241, 0.973);
+    box-sizing: border-box;
+
+    text-align: center;
+
+    padding-top: 50px;
+    padding-left: 50px;
+    padding-right: 30px;
+    padding-bottom: 50px;
+    
+    margin-bottom: 50px;
+
+    font-family: cursive;
+    font-size: 50px;
+}
+
+button {
+    border: none;
+    box-sizing: border-box;
+
+    text-align: center;
+
+    color: rgba(245, 241, 241, 0.973);
+    background-color: rgb(17, 82, 17); 
+
+    font-family: cursive;
+    font-size: 70px;
+    
+    height: 100px;
+    width: 200px;
+    
+    margin-left: 50px;
+}
+
+button:hover {
+    border: 2px dashed gray;
+    border-radius: 30px;
+    color: rgba(245, 241, 241, 0.384); 
+}
+
+button:focus {
+    outline: none;
+}
+
+/* Decision Menu Style */ 
+
+#decision-menu {
+    display: none;
+}
+
+#backButton {
+    font-size: 50px;
+    margin-top: 70px;
+    margin-left: 200px;
+}
+
+
+
+#game-menu {
+    display: none;
+}
+
+#square {
+    display: inline-grid;
+
+    box-sizing: border-box;
+    border: 3px solid red;
+
+    font-family: cursive;
+      
+    text-align: center;
+    vertical-align: middle;
+    line-height: 200px;
+
+    font-size: 100px;
+
+    margin-right: -4px;
+    width: 200px;
+    height: 200px;
+
+
+}
+
+#row {
+    box-sizing: border-box;
+    display: block;
+}

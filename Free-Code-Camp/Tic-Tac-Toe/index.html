@@ -1,14 +1,57 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Tic-Tac-Toe</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous" />
     <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
 </head>
+
 <body>
-    
+    <div id="table">
+        <div id="board">
+            <div id="start-menu">
+                <div id="question">How many players ?</div>
+
+                <button>ONE</button>
+                <button>TWO</button>
+            </div>
+
+            <div id="decision-menu">
+                <div id="question">Would you like to play with X or O ?</div>
+
+                <button>X</button>
+                <button>O</button>
+
+                <button id="backButton"><i class="fas fa-long-arrow-alt-left"> Back</i></button>
+            </div>
+
+
+            <div id="game-menu">
+                <div id="row">
+                    <div id="square">X</div>
+                    <div id="square">X</div>
+                    <div id="square">X</div>
+                </div>
+
+                <div id="row">
+                    <div id="square">X</div>
+                    <div id="square">X</div>
+                    <div id="square">X</div>
+                </div>
+
+                <div id="row">
+                    <div id="square">X</div>
+                    <div id="square">X</div>
+                    <div id="square">X</div>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="main.js"></script>
 </body>
+
 </html>

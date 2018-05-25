@@ -2,6 +2,7 @@ document.getElementById('ONE').onclick = () => {
     let currentWindow = document.getElementById('start-menu');
     let nextWindow = document.getElementById('decision-menu');
 
+    nextWindow.querySelector('#question').innerHTML = "Would you like to play with X or O ?"
     fadeOut(currentWindow, nextWindow);
 }
 
@@ -10,6 +11,18 @@ document.getElementById('backButton').onclick = () => {
     let nextWindow = document.getElementById('start-menu');
 
     fadeOut(currentWindow, nextWindow);
+}
+
+document.getElementById('TWO').onclick = () => {
+    let currentWindow = document.getElementById('start-menu');
+    let nextWindow = document.getElementById('decision-menu');
+
+    nextWindow.querySelector('#question').innerHTML = "Player 1," + "<br>" + "would you like to play with X or O ?"
+    fadeOut(currentWindow, nextWindow);
+}
+
+const ticTacToeGame = () => {
+
 }
 
 const fadeOut = (obj, nx) => {

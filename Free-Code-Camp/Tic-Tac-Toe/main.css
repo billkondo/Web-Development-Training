@@ -46,7 +46,7 @@ body {
 /* Start Menu Style */
 
 #start-menu {
-    display: block;
+    display: none;
 }
 
 #question {
@@ -55,7 +55,7 @@ body {
 
     text-align: center;
 
-    padding-top: 50px;
+    padding-top: 35px;
     padding-left: 50px;
     padding-right: 30px;
     padding-bottom: 50px;
@@ -106,12 +106,12 @@ button:focus {
 
 #backButton {
     margin-top: 50px;
-    margin-left: 180px;
+    margin-left: 190px;
     font-size: 30px;
 }
 
 #game-menu {
-    display: none;
+    display: block;
 }
 
 .square {

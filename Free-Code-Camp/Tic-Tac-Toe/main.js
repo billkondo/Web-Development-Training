@@ -21,8 +21,33 @@ document.getElementById('TWO').onclick = () => {
     fadeOut(currentWindow, nextWindow);
 }
 
-const ticTacToeGame = () => {
+document.getElementById('choiceX').onclick = () => {
+    let player = 1;
 
+    let text = document.getElementById('decision-menu').querySelector('#question').innerText;
+    let flag = (text[0] === 'P') ? false : true;
+    
+    let currentWindow = document.getElementById('decision-menu');
+    let nextWindow = document.getElementById('game-menu');
+
+    fadeOut(currentWindow, nextWindow);
+    ticTacToeGame(player, flag);
+}
+
+document.getElementById('choiceO').onclick = () => {
+    let player = 0;
+
+    let text = document.getElementById('decision-menu').querySelector('#question').innerText;
+    let flag = (text[0] === 'P') ? false : true;
+    
+    let currentWindow = document.getElementById('decision-menu');
+    let nextWindow = document.getElementById('game-menu');
+
+    fadeOut(currentWindow, nextWindow);
+    ticTacToeGame(player, flag);
+}
+
+const ticTacToeGame = (player, flag) => {
 }
 
 const fadeOut = (obj, nx) => {

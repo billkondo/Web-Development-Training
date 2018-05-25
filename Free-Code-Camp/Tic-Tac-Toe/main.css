@@ -8,7 +8,7 @@ body {
 
     background-color: rgba(230, 151, 6, 0.733); 
 
-    height: 700px;
+    height: 750px;
     width: 660px;
 
     overflow: auto;
@@ -30,10 +30,10 @@ body {
     background-color: rgb(17, 82, 17);
     background: radial-gradient(rgb(21, 121, 21), rgb(3, 65, 6)); 
 
-    height: 600px; 
+    height: 650px; 
     width: 600px;
 
-    margin-top: 70px;
+    margin-top: 5px;
     margin-left: 30px;
     
     border-collapse: collapse;
@@ -46,7 +46,7 @@ body {
 /* Start Menu Style */
 
 #start-menu {
-    display: none;
+    display: block;
 }
 
 #question {
@@ -110,8 +110,10 @@ button:focus {
     font-size: 30px;
 }
 
+/* Game Menu Style */
+
 #game-menu {
-    display: block;
+    display: none;
 }
 
 .square {
@@ -131,12 +133,13 @@ button:focus {
     font-size: 100px;
 
     margin-right: -4px;
-    width: 200px;
-    height: 200px;
+    width: 190px;
+    height: 197px;
 }
 
 .row > div:first-child {
     border-left: 0;
+    margin-left: 12px; 
 }
 
 .row > div:last-child {
@@ -145,9 +148,38 @@ button:focus {
 
 #game-menu > .row:first-child .square {
     border-top: 0;
+    margin-top: 30px; 
 }   
 
 #game-menu > .row:last-child .square {
     border-bottom: 0;
-}    
+}     
+
+/* Score Style */
+
+#score {
+    box-sizing: border-box;
+    height: 50px;
+    width: inherit;
+}
+
+#resetAll {
+    display: none;
+
+    margin: 0;
+    color: rgba(211, 80, 57, 0.829);
+    text-shadow: 1px 3px 5px #333;
+
+    
+    height: 50px;
+    width: 100px;
+
+    font-size: 30px;
+}
+
+#resetAll:hover {
+    color: rgba(211, 80, 57, 0.486);
+    border: 3px dashed rgba(211, 80, 57, 0.486);
+}
+
 

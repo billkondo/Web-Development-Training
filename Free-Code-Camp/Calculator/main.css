@@ -5,8 +5,8 @@ body {
 .container {
     margin-top: 10%;
 
-    background-color:gray; 
-    background: linear-gradient(to left top, rgb(83, 83, 83), rgba(128, 128, 128, 0.692));
+    background-color:rgb(51, 51, 51); 
+    /* background: linear-gradient(to left top, rgb(83, 83, 83), rgba(128, 128, 128, 0.692)); */
 
     width: 220px;
     height: 300px;
@@ -19,7 +19,9 @@ body {
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
 
-    box-shadow: 0 15px 10px -5px rgba(61, 60, 60, 0.698);
+    box-shadow: 5px 0 20px rgba(61, 60, 60, 0.698), 
+                -5px 0 20px rgba(61, 60, 60, 0.698),
+                0 15px 20px -5px rgba(61, 60, 60, 0.698);
 }
 
 p {
@@ -42,7 +44,7 @@ p {
     padding-right: 15px; 
     padding-bottom: 7px;
 
-    text-shadow: 0 1px 1px black;
+    text-shadow: 0 1px 5px black;
 
     text-align: right;
 }
@@ -53,11 +55,11 @@ button {
 
     font-size: 15px;
 
-    background: linear-gradient(to left top, rgb(180, 179, 179), rgba(56, 56, 56, 0.541));
+    background: linear-gradient(to left top, rgb(119, 118, 118), rgb(238, 235, 235));
 
     box-sizing: border-box;
-    box-shadow: 3px 3px 5px #333;
-    text-shadow: 0 1px 1px black;
+    box-shadow: 3px 3px 5px black;
+    text-shadow: 1px 0px 5px black;
 
     border-radius: 5px; 
     
@@ -105,10 +107,12 @@ button:active, .buttonActive {
 
 #CE, #AC, #eraserButton {
     background-color: rgba(201, 12, 12, 0.76); 
-    background: linear-gradient(to left top, rgba(201, 12, 12, 0.76), rgba(10, 80, 192, 0.788));
+    background: linear-gradient(to left top, rgb(231, 10, 10), rgb(12, 95, 228));
 }
 
 #equals {
     background-color: rgb(61, 137, 209);
-    background: linear-gradient(to left top, rgb(61, 137, 209), rgba(131, 6, 189, 0.788));
+    background: linear-gradient(to left top, rgb(20, 127, 228), rgba(167, 6, 241, 0.788));
 }
+
+

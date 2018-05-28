@@ -518,6 +518,13 @@ $(document).ready(function () {
             Reset the input value
         */
 
+        let len = chain.length;
+
+        if(len && !isOP(chain[len - 1])) {
+            chain.pop();
+            chainDisplay.pop();
+        }
+
         resetCur();
         displayCurrentValue();
     });

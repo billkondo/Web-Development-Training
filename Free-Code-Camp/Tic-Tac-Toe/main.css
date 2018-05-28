@@ -6,7 +6,7 @@ body {
     box-sizing: border-box;
     margin: 200px auto;
 
-    background-color: rgba(230, 151, 6, 0.733); 
+    background-color: rgb(255, 145, 0); 
 
     height: 750px;
     width: 660px;
@@ -19,16 +19,16 @@ body {
     box-shadow: 10px 0px 20px #333, 
                 -10px 0 20px #333, 
                 0 30px 20px -10px #333,
-                10px 10px 20px rgba(173, 114, 5, 0.733) inset,
-                -10px -10px 20px rgba(173, 114, 5, 0.733) inset;
+                10px 10px 20px rgb(129, 85, 3) inset,
+                -10px -10px 20px rgb(145, 96, 4) inset;
 }
 
 #board {
     box-sizing: border-box;
     position: relative;
    
-    background-color: rgb(17, 82, 17);
-    background: radial-gradient(rgb(21, 121, 21), rgb(3, 65, 6)); 
+    /* background-color: rgb(17, 82, 17); */
+    background: radial-gradient(rgb(5, 133, 5), rgb(0, 36, 5)); 
 
     height: 650px; 
     width: 600px;
@@ -39,8 +39,8 @@ body {
     border-collapse: collapse;
     border-radius: 40px;
 
-    box-shadow: 10px 10px 20px rgb(3, 59, 3) inset,
-                -10px -10px 20px rgb(1, 49, 1) inset;
+    box-shadow: 10px 10px 20px rgb(1, 32, 1) inset,
+                -10px -10px 20px rgb(0, 24, 0) inset;
 }
 
 /* Start Menu Style */
@@ -186,7 +186,7 @@ button:focus {
 
     margin: 0;
     color: rgba(211, 80, 57, 0.829);
-    text-shadow: 1px 3px 5px #333;
+    text-shadow: 1px 3px 10px #333;
     margin-left: 60px;
 
     height: 60px;
@@ -199,6 +199,52 @@ button:focus {
 #resetAll:hover {
     color: rgba(211, 80, 57, 0.486);
     border: 3px dashed rgba(211, 80, 57, 0.486);
+}
+
+#firstPlayerWarning {
+    position: absolute;
+    font-family: cursive;
+    font-size: 30px;
+    color: white;
+
+    text-align: center;
+
+    height: 100px;
+    width: 200px;
+
+    margin-left: 40px; 
+
+    background: rgb(33, 65, 153);
+    background: linear-gradient(rgb(33, 65, 153), rgb(54, 101, 231));
+
+    z-index: -1;
+}
+
+#secondPlayerWarning {
+    position: absolute;
+    font-family: cursive;
+    font-size: 30px;
+    color: white;
+
+    text-align: center;
+
+    height: 100px;
+    width: 200px;
+
+    margin-left: 420px; 
+
+    background: rgb(38, 122, 143); 
+    background: linear-gradient(rgb(38, 122, 143), rgb(39, 172, 206));
+
+    z-index: -1;
+}
+
+#firstPlayerScore {
+    color: rgb(33, 65, 153);
+}
+
+#secondPlayerScore {
+    color: rgb(38, 122, 143);
 }
 
 

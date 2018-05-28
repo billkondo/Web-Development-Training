@@ -11,4 +11,4 @@ In this project, we will try to implement a tic-tac-toe game in Javascript.
 ### Challenges
 
 * Use Javascript to develop the logic of the program and the DOM manipulation
-* Implement a good "AI" for the computer
+* Implement a good "AI" for the computer    

@@ -22,26 +22,32 @@ document.getElementById('backButton').onclick = () => {
 }
 
 document.getElementById('choiceX').onclick = () => {
-    let player = 1;
+    let isFirstPlayerX = 1;
 
     let text = document.getElementById('decision-menu').querySelector('#question').innerText;
-    let flag = (text[0] === 'P') ? false : true;
+    let isComputerPlaying = (text[0] === 'P') ? false : true;
 
-    startGame(flag);
-    ticTacToeGame(player, flag);
+    prepareGame(isComputerPlaying);
+
+    setTimeout(() => {
+        ticTacToeGame(isFirstPlayerX, isComputerPlaying);
+    }, 2000);
 }
 
 document.getElementById('choiceO').onclick = () => {
-    let player = 0;
+    let isFirstPlayerX = 0;
 
     let text = document.getElementById('decision-menu').querySelector('#question').innerText;
-    let flag = (text[0] === 'P') ? false : true;
+    let isComputerPlaying = (text[0] === 'P') ? false : true;
 
-    startGame(flag);
-    ticTacToeGame(player, flag);
+    prepareGame(isComputerPlaying);
+
+    setTimeout(() => {
+        ticTacToeGame(isFirstPlayerX, isComputerPlaying);
+    }, 2000);
 }
 
-const startGame = (flag) => {
+const prepareGame = (isComputerPlaying) => {
     let currentWindow = document.getElementById('decision-menu');
     let nextWindow = document.getElementById('game-menu');
 
@@ -51,12 +57,13 @@ const startGame = (flag) => {
     let scores = document.getElementsByClassName('scoreDisplay');
 
     for (let i = 0; i < scores.length; i++) {
-        if (!i)
-            scores[i].innerHTML = `Player ${i + 1}` + `<br>` + `${0}`;
-        else {
-            if (!flag) scores[i].innerHTML = `Player ${i + 1}` + `<br>` + `${0}`;
-            else scores[i].innerHTML = `Computer` + `<br>` + `${0}`;
+        if (isComputerPlaying) {
+            if (!i) scores[i].innerHTML = `Your Score` + `<br>` + `${0}`;
+            else scores[i].innerHTML = `Computer's Score` + `<br>` + `${0}`;
         }
+        else
+            scores[i].innerHTML = `Player ${i + 1}` + `<br>` + `${0}`;
+
         nx.push(scores[i]);
         types.push("inline-block");
     }
@@ -70,6 +77,18 @@ const startGame = (flag) => {
     resetBoard();
 
     fadeOut(currentWindow, nx, types);
+
+    let firstPlayerWarningOBJ = document.getElementById('firstPlayerWarning');
+    let secondPlayerWarningOBJ = document.getElementById('secondPlayerWarning');
+
+    if (isComputerPlaying) {
+        firstPlayerWarningOBJ.innerText = `Your Turn`;
+        secondPlayerWarningOBJ.innerText = `Computer's Turn`;
+    }
+    else {
+        firstPlayerWarningOBJ.innerText = `Go Player 1`;
+        secondPlayerWarningOBJ.innerText = `Go Player 2`;
+    }
 }
 
 document.getElementById('resetAll').onclick = () => {
@@ -93,6 +112,9 @@ document.getElementById('resetAll').onclick = () => {
             fadeOut(objs[i]);
         else
             fadeOut(objs[i], [nextWindow], ["block"]);
+
+    moveDown(1);
+    moveDown(2);
 }
 
 const resetBoard = () => {
@@ -102,71 +124,11 @@ const resetBoard = () => {
         squares[i].innerText = "";
 }
 
-const moveUp = (playerCard) => {
-    console.log('moveUp');
-    let id;
-
-    if (playerCard == 1) id = 'firstPlayerWarning';
-    else id = 'secondPlayerWarning';
-
-    let obj = document.getElementById(id);
-
-    let keyFrames = [
-        { transform: 'translateY(0px)' },
-        { transform: 'translateY(-100px)' }
-    ];
-
-    let timing = {
-        duration: 650,
-        iterations: 1
-    };
-
-    let animations = obj.animate(keyFrames, timing);
-
-    animations.onfinish = () => {
-        obj.style.marginTop = '-100px';
-    }
-}
-
-const moveDown = (playerCard) => {
-    console.log('moveUp');
-    let id;
-
-    if (playerCard == 1) id = 'firstPlayerWarning';
-    else id = 'secondPlayerWarning';
-
-    let obj = document.getElementById(id);
-
-    let keyFrames = [
-        { transform: 'translateY(0px)' },
-        { transform: 'translateY(100px)' }
-    ];
-
-    let timing = {
-        duration: 650,
-        iterations: 1
-    };
-
-    let animations = obj.animate(keyFrames, timing);
-
-    animations.onfinish = () => {
-        obj.style.marginTop = '0px';
-    }
-}
-
-moveUp(1);
-moveUp(2);
-
-setTimeout(() => {
-    moveDown(1);
-    moveDown(2);
-}, 2000);
-
 const ticTacToeGame = (isFirstPlayerX, isComputerPlaying) => {
     /*
-        isFirstPlayer: indicates which symbol first player is using 
-        isFirstPlayer = 0: first player is using O
-        isFirstPlayer = 1: first player is using X
+        isFirstPlayerX: indicates which symbol first player is using 
+        isFirstPlayerX = 0: first player is using O
+        isFirstPlayerX = 1: first player is using X
 
         isComputerPlaying: indicates if the second player is human or the computer
         isComputerPlaying = 0: the first player is a human
@@ -190,7 +152,7 @@ const ticTacToeGame = (isFirstPlayerX, isComputerPlaying) => {
                 -1: Game is running
         */
 
-        winnigPosition = [
+        const winnigPosition = [
             [0, 1, 2],
             [3, 4, 5],
             [6, 7, 8],
@@ -228,36 +190,96 @@ const ticTacToeGame = (isFirstPlayerX, isComputerPlaying) => {
         return -1;
     }
 
+    const findWinningConfig = () => {
+        const winnigPosition = [
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [0, 3, 6],
+            [1, 4, 7],
+            [2, 5, 8],
+            [0, 4, 8],
+            [2, 4, 6]
+        ];
+
+        squares = document.getElementsByClassName('square');
+
+        for (let i = 0; i < winnigPosition.length; i++) {
+            indexes = winnigPosition[i];
+
+            if (squares[indexes[0]].innerText === squares[indexes[1]].innerText && squares[indexes[0]].innerText === squares[indexes[2]].innerText && squares[indexes[0]].innerText)
+                return winnigPosition[i];
+        }
+
+        return [];
+    }
+
     const play = (round, callback) => {
         let isFirstPlayerTurn = (round % 2 === isFirstPlayerX);
 
-        console.log(`round is ${round}`);
-        console.log(isFirstPlayerTurn);
+        // console.log(`round is ${round}`);
+        // console.log(isFirstPlayerTurn);
 
         const winner = checkWinner();
 
+        if (round) {
+            if (isFirstPlayerTurn) moveDown(2);
+            else moveDown(1);
+        }
+
         if (winner >= 0) {
+            console.log('Game Ended');
+
+            let config = findWinningConfig();
+            let squares = document.getElementsByClassName('square');
+
+            if (winner) {
+                for (let pos of config) {
+                    squares[pos].style.backgroundColor = "black";
+                    squares[pos].style.color = "lightblue";
+                }
+            }
+
             setTimeout(() => {
                 if (winner == 0) {
                     alert('Draw');
-                    return;
                 }
                 else
                     if (winner == 1) {
                         alert('First Player Won !!!');
                         ++firstPlayerScore;
-                        return;
                     }
                     else
                         if (winner == 2) {
                             alert('Second Player Won !!!');
                             ++secondPlayerScore;
-                            return;
                         }
-            }, 1000);
+
+                scoresDisplayOBJs = document.getElementsByClassName('scoreDisplay');
+                playerScores = [firstPlayerScore, secondPlayerScore];
+
+                for (let i = 0; i < scoresDisplayOBJs.length; i++)
+                    if (isComputerPlaying) {
+                        if (!i) scoresDisplayOBJs[i].innerHTML = `Your Score` + `<br>` + `${playerScores[i]}`;
+                        else scoresDisplayOBJs[i].innerHTML = `Computer's Score` + `<br>` + `${playerScores[i]}`;
+                    }
+                    else
+                        scoresDisplayOBJs[i].innerHTML = `Player ${i + 1}` + `<br>` + `${playerScores[i]}`;
+                
+                if (winner) {
+                    for (let pos of config) {
+                        squares[pos].style.backgroundColor = "inherit";
+                        squares[pos].style.color = "white";
+                    }
+                }
+
+                resetBoard();
+                callback(0, play);
 
 
-            resetBoard();
+            }, 2000);
+
+            return;
         }
 
         if (!isFirstPlayerTurn && isComputerPlaying) {
@@ -275,27 +297,38 @@ const ticTacToeGame = (isFirstPlayerX, isComputerPlaying) => {
                 else currentSymbol = 'O';
             }
 
-            let squares = document.getElementsByClassName('square');
-
-            const processClick = (e) => {
-                e.target.innerText = currentSymbol;
-
-                for (let i = 0; i < squares.length; i++)
-                    squares[i].removeEventListener('click', processClick);
-
-                callback(round + 1, play);
-                return;
+            if (isFirstPlayerTurn) {
+                if (round) moveDown(2);
+                moveUp(1);
+            }
+            else {
+                if (round) moveDown(1);
+                moveUp(2);
             }
 
-            for (let i = 0; i < squares.length; i++)
-                squares[i].addEventListener('click', processClick);
+            setTimeout(() => {
+                let squares = document.getElementsByClassName('square');
+
+                const processClick = (e) => {
+                    if (e.target.innerText) return;
+                    e.target.innerText = currentSymbol;
+
+                    for (let i = 0; i < squares.length; i++)
+                        squares[i].removeEventListener('click', processClick);
+
+                    callback(round + 1, play);
+                    return;
+                }
+
+                for (let i = 0; i < squares.length; i++)
+                    squares[i].addEventListener('click', processClick);
+            }, 300);
+
         }
     }
 
     play(0, play);
 }
-
-
 
 const fadeOut = (obj, nx, typeDisplay) => {
     obj.style.opacity = 1.0;
@@ -324,4 +357,55 @@ const fadeIn = (obj, typeDisplay) => {
         }
         obj.style.opacity -= -0.2;
     }, 100);
+}
+
+const moveUp = (playerCard) => {
+    let id;
+
+    if (playerCard == 1) id = 'firstPlayerWarning';
+    else id = 'secondPlayerWarning';
+
+    let obj = document.getElementById(id);
+
+    let keyFrames = [
+        { transform: 'translateY(0px)' },
+        { transform: 'translateY(-100px)' }
+    ];
+
+    let timing = {
+        duration: 300,
+        iterations: 1,
+        easing: 'ease-out'
+    };
+
+    let animations = obj.animate(keyFrames, timing);
+
+    animations.onfinish = () => { obj.style.marginTop = '-100px'; }
+}
+
+const moveDown = (playerCard) => {
+    let id;
+
+    if (playerCard == 1) id = 'firstPlayerWarning';
+    else id = 'secondPlayerWarning';
+
+    let obj = document.getElementById(id);
+
+    if (obj.style.marginTop === '0px')
+        return;
+
+    let keyFrames = [
+        { transform: 'translateY(0px)' },
+        { transform: 'translateY(100px)' }
+    ];
+
+    let timing = {
+        duration: 300,
+        iterations: 1,
+        easing: 'ease-out'
+    };
+
+    let animations = obj.animate(keyFrames, timing);
+
+    animations.onfinish = () => { obj.style.marginTop = '0px'; }
 }

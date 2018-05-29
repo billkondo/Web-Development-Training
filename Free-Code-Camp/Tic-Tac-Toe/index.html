@@ -6,21 +6,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Tic-Tac-Toe</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
+        crossorigin="anonymous" />
     <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
 </head>
 
 <body>
     <div id="table">
         <div id="score">
-            <div id="firstPlayerWarning"> Your Turn  </div>
+            <div id="firstPlayerWarning"> Your Turn </div>
             <div id="secondPlayerWarning"> Computer's Turn </div>
             <div class="scoreDisplay" id="firstPlayerScore"></div>
             <div class="scoreDisplay" id="secondPlayerScore"></div>
             <button id="resetAll"></button>
         </div>
-
-
 
         <div id="board">
             <div id="start-menu">
@@ -36,7 +35,9 @@
                 <button id="choiceX">X</button>
                 <button id="choiceO">O</button>
 
-                <button id="backButton"><i class="fas fa-long-arrow-alt-left"> Back</i></button>
+                <button id="backButton">
+                    <i class="fas fa-long-arrow-alt-left"> Back</i>
+                </button>
             </div>
 
             <div id="game-menu">
@@ -58,6 +59,8 @@
                     <div class="square"></div>
                 </div>
             </div>
+
+            <div id="game-end"> Draw !!! </div>
         </div>
     </div>
     <script src="main.js"></script>

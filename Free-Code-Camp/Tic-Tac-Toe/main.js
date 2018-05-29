@@ -2,7 +2,7 @@ document.getElementById('ONE').onclick = () => {
     let currentWindow = document.getElementById('start-menu');
     let nextWindow = document.getElementById('decision-menu');
 
-    nextWindow.querySelector('#question').innerHTML = "Would you like to play with X or O ?"
+    nextWindow.querySelector('#question').innerHTML = `Would you like to play with X or O ?`;
     fadeOut(currentWindow, [nextWindow], ["block"]);
 }
 
@@ -10,7 +10,7 @@ document.getElementById('TWO').onclick = () => {
     let currentWindow = document.getElementById('start-menu');
     let nextWindow = document.getElementById('decision-menu');
 
-    nextWindow.querySelector('#question').innerHTML = "Player 1," + "<br>" + "would you like to play with X or O ?"
+    nextWindow.querySelector('#question').innerHTML = `Player 1,  <br> would you like to play with X or O ?`;
     fadeOut(currentWindow, [nextWindow], ["block"]);
 }
 
@@ -31,7 +31,7 @@ document.getElementById('choiceX').onclick = () => {
 
     setTimeout(() => {
         ticTacToeGame(isFirstPlayerX, isComputerPlaying);
-    }, 2000);
+    }, 1000);
 }
 
 document.getElementById('choiceO').onclick = () => {
@@ -44,7 +44,7 @@ document.getElementById('choiceO').onclick = () => {
 
     setTimeout(() => {
         ticTacToeGame(isFirstPlayerX, isComputerPlaying);
-    }, 2000);
+    }, 1000);
 }
 
 const prepareGame = (isComputerPlaying) => {
@@ -58,11 +58,11 @@ const prepareGame = (isComputerPlaying) => {
 
     for (let i = 0; i < scores.length; i++) {
         if (isComputerPlaying) {
-            if (!i) scores[i].innerHTML = `Your Score` + `<br>` + `${0}`;
-            else scores[i].innerHTML = `Computer's Score` + `<br>` + `${0}`;
+            if (!i) scores[i].innerHTML = `Your Score <br> ${0}`;
+            else scores[i].innerHTML = `Computer's Score <br> ${0}`;
         }
         else
-            scores[i].innerHTML = `Player ${i + 1}` + `<br>` + `${0}`;
+            scores[i].innerHTML = `Player ${i + 1} <br> ${0}`;
 
         nx.push(scores[i]);
         types.push("inline-block");
@@ -91,37 +91,21 @@ const prepareGame = (isComputerPlaying) => {
     }
 }
 
-document.getElementById('resetAll').onclick = () => {
-    let currentWindow = document.getElementById('game-menu');
-    let nextWindow = document.getElementById('start-menu');
-
-    let scores = document.getElementsByClassName('scoreDisplay');
-    let resetButton = document.getElementById('resetAll');
-
-    objs = [];
-
-    objs.push(currentWindow);
-
-    for (let i = 0; i < scores.length; i++)
-        objs.push(scores[i]);
-
-    objs.push(resetButton);
-
-    for (let i = 0; i < objs.length; i++)
-        if (i != objs.length - 1)
-            fadeOut(objs[i]);
-        else
-            fadeOut(objs[i], [nextWindow], ["block"]);
-
-    moveDown(1);
-    moveDown(2);
-}
-
 const resetBoard = () => {
     let squares = document.getElementsByClassName('square');
 
-    for (let i = 0; i < squares.length; i++)
+    for (let i = 0; i < squares.length; i++) {
         squares[i].innerText = "";
+        squares[i].color = "white";
+        squares[i].backgroundColor = "inherit";
+        squares[i].outerHTML = squares[i].outerHTML;
+    }
+
+    let firstPlayerWarningOBJ = document.getElementById('firstPlayerWarning');
+    let secondPlayerWarningOBJ = document.getElementById('secondPlayerWarning');
+
+    firstPlayerWarningOBJ.style.marginTop = "0px";
+    secondPlayerWarningOBJ.style.marginTop = "0px";
 }
 
 const ticTacToeGame = (isFirstPlayerX, isComputerPlaying) => {
@@ -136,11 +120,40 @@ const ticTacToeGame = (isFirstPlayerX, isComputerPlaying) => {
 
     */
 
-    console.log(`isFirstPlyerX = ${isFirstPlayerX}`);
-    console.log(`isComputerPlaying = ${isComputerPlaying}`);
-
     let firstPlayerScore = 0;
     let secondPlayerScore = 0;
+    let stopExecution = false;
+
+    const resetGame = () => {
+        let currentWindow = document.getElementById('game-menu');
+        let nextWindow = document.getElementById('start-menu');
+
+        let scores = document.getElementsByClassName('scoreDisplay');
+        let resetButtonOBJ = document.getElementById('resetAll');
+
+        resetButtonOBJ.removeEventListener('click', resetGame);
+
+        objs = [];
+
+        objs.push(currentWindow);
+
+        for (let i = 0; i < scores.length; i++)
+            objs.push(scores[i]);
+
+        objs.push(resetButtonOBJ);
+
+        moveDown(1);
+        moveDown(2);
+        resetBoard();
+
+        for (let i = 0; i < objs.length; i++)
+            if (i != objs.length - 1)
+                fadeOut(objs[i]);
+            else
+                fadeOut(objs[i], [nextWindow], ["block"]);
+
+        stopExecution = true;
+    }
 
     const checkWinner = () => {
         /*
@@ -215,10 +228,17 @@ const ticTacToeGame = (isFirstPlayerX, isComputerPlaying) => {
     }
 
     const play = (round, callback) => {
-        let isFirstPlayerTurn = (round % 2 === isFirstPlayerX);
+        if (stopExecution)
+            return;
 
-        // console.log(`round is ${round}`);
-        // console.log(isFirstPlayerTurn);
+        setTimeout(() => {
+            let resetButtonOBJ = document.getElementById('resetAll');
+            resetButtonOBJ.addEventListener('click', resetGame);
+        }, 500);
+
+        console.log(`play ${round}`);
+
+        let isFirstPlayerTurn = (round % 2 === isFirstPlayerX);
 
         const winner = checkWinner();
 
@@ -228,7 +248,14 @@ const ticTacToeGame = (isFirstPlayerX, isComputerPlaying) => {
         }
 
         if (winner >= 0) {
-            console.log('Game Ended');
+            let resetButtonOBJ = document.getElementById('resetAll');
+
+            fadeOut(resetButtonOBJ);
+
+            setTimeout(() => {
+                resetButtonOBJ = document.getElementById('resetAll');
+                resetButtonOBJ.removeEventListener('click', resetGame);
+            }, 500);
 
             let config = findWinningConfig();
             let squares = document.getElementsByClassName('square');
@@ -241,43 +268,57 @@ const ticTacToeGame = (isFirstPlayerX, isComputerPlaying) => {
             }
 
             setTimeout(() => {
+                let gameEndOBJ = document.getElementById('game-end');
+
                 if (winner == 0) {
-                    alert('Draw');
+                    gameEndOBJ.innerText = "Draw !!!";
                 }
                 else
                     if (winner == 1) {
-                        alert('First Player Won !!!');
+                        if (isComputerPlaying) gameEndOBJ.innerText = "You Won ! :)"
+                        else gameEndOBJ.innerText = "Player 1 Won";
                         ++firstPlayerScore;
                     }
                     else
                         if (winner == 2) {
-                            alert('Second Player Won !!!');
+                            if (isComputerPlaying) gameEndOBJ.innerText = "Computer Won :(";
+                            else gameEndOBJ.innerText = "Player 2 Won";
                             ++secondPlayerScore;
                         }
 
-                scoresDisplayOBJs = document.getElementsByClassName('scoreDisplay');
-                playerScores = [firstPlayerScore, secondPlayerScore];
+                fadeIn(gameEndOBJ, 'initial');
 
-                for (let i = 0; i < scoresDisplayOBJs.length; i++)
-                    if (isComputerPlaying) {
-                        if (!i) scoresDisplayOBJs[i].innerHTML = `Your Score` + `<br>` + `${playerScores[i]}`;
-                        else scoresDisplayOBJs[i].innerHTML = `Computer's Score` + `<br>` + `${playerScores[i]}`;
+                setTimeout(() => {
+                    fadeOut(gameEndOBJ);
+
+                    scoresDisplayOBJs = document.getElementsByClassName('scoreDisplay');
+                    playerScores = [firstPlayerScore, secondPlayerScore];
+
+                    for (let i = 0; i < scoresDisplayOBJs.length; i++)
+                        if (isComputerPlaying) {
+                            if (!i) scoresDisplayOBJs[i].innerHTML = `Your Score <br> ${playerScores[i]}`;
+                            else scoresDisplayOBJs[i].innerHTML = `Computer's Score <br> ${playerScores[i]}`;
+                        }
+                        else
+                            scoresDisplayOBJs[i].innerHTML = `Player ${i + 1} <br> ${playerScores[i]}`;
+
+                    if (winner) {
+                        for (let pos of config) {
+                            squares[pos].style.backgroundColor = "inherit";
+                            squares[pos].style.color = "white";
+                        }
                     }
-                    else
-                        scoresDisplayOBJs[i].innerHTML = `Player ${i + 1}` + `<br>` + `${playerScores[i]}`;
-                
-                if (winner) {
-                    for (let pos of config) {
-                        squares[pos].style.backgroundColor = "inherit";
-                        squares[pos].style.color = "white";
-                    }
-                }
 
-                resetBoard();
-                callback(0, play);
+                    resetBoard();
+                    fadeIn(resetButtonOBJ, 'inline-block');
 
+                    setTimeout(() => {
+                        callback(0, play);
+                    }, 500);
 
-            }, 2000);
+                }, 1000);
+
+            }, 1000);
 
             return;
         }
@@ -322,7 +363,7 @@ const ticTacToeGame = (isFirstPlayerX, isComputerPlaying) => {
 
                 for (let i = 0; i < squares.length; i++)
                     squares[i].addEventListener('click', processClick);
-            }, 300);
+            }, 350);
 
         }
     }
@@ -352,10 +393,10 @@ const fadeIn = (obj, typeDisplay) => {
     obj.style.display = typeDisplay;
 
     const fade = setInterval(() => {
-        if (obj.style.opacity > 0.9) {
+        if (obj.style.opacity >= 0.9) {
             clearInterval(fade);
         }
-        obj.style.opacity -= -0.2;
+        obj.style.opacity -= (-0.2);
     }, 100);
 }
 

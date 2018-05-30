@@ -8,7 +8,7 @@ document.getElementById('ONE').onclick = () => {
     nextWindow.querySelector('#question').innerHTML = `Would you like to play with X or O ?`;
     fadeOut(currentWindow, [nextWindow], ["block"]);
 
-    for(let i = 0; i < choicesOBJ.length; i++) {
+    for (let i = 0; i < choicesOBJ.length; i++) {
         choicesOBJ[i].addEventListener('click', gameTrigger);
         choicesOBJ[i].disabled = false;
     }
@@ -24,7 +24,7 @@ document.getElementById('TWO').onclick = () => {
     nextWindow.querySelector('#question').innerHTML = `Player 1,  <br> would you like to play with X or O ?`;
     fadeOut(currentWindow, [nextWindow], ["block"]);
 
-    for(let i = 0; i < choicesOBJ.length; i++) {
+    for (let i = 0; i < choicesOBJ.length; i++) {
         choicesOBJ[i].addEventListener('click', gameTrigger);
         choicesOBJ[i].disabled = false;
     }
@@ -44,12 +44,12 @@ const gameTrigger = (e) => {
     e.target.disabled = true;
 
     let choicesOBJ = document.getElementsByClassName('choices');
-    for(let i = 0; i < choicesOBJ.length; i++)
+    for (let i = 0; i < choicesOBJ.length; i++)
         choicesOBJ[i].addEventListener('click', gameTrigger);
 
     let isFirstPlayerX;
 
-    if(e.target.innerText === 'X') isFirstPlayerX = 1;
+    if (e.target.innerText === 'X') isFirstPlayerX = 1;
     else isFirstPlayerX = 0;
 
     let text = document.getElementById('decision-menu').querySelector('#question').innerText;
@@ -126,14 +126,138 @@ const resetBoard = () => {
 const ticTacToeGame = (isFirstPlayerX, isComputerPlaying) => {
     /*
         isFirstPlayerX: indicates which symbol first player is using 
-        isFirstPlayerX = 0: first player is using O
-        isFirstPlayerX = 1: first player is using X
+        isFirstPlayerX = 0: first player is using O. You starts
+        isFirstPlayerX = 1: first player is using X. Computer starts
 
         isComputerPlaying: indicates if the second player is human or the computer
         isComputerPlaying = 0: the first player is a human
         isComputerPlaying = 1: the second player is the computer
 
     */
+
+    /* Compute Computer Moves */
+
+    const maxMask = 20000;
+    let dp = new Array(2);
+
+    for (let i = 0; i < 2; i++) dp[i] = new Array(maxMask);
+
+    for (let i = 0; i < 2; i++)
+        for (let j = 0; j < maxMask; j++)
+            dp[i][j] = -10000;
+
+    const getWinnerForDP = (currentBoard) => {
+        /*
+            Returns
+                0: Draw
+                1: First Player Won
+                2: Computer Won
+                -1: No winners yet
+        */
+        const winnigPosition = [
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [0, 3, 6],
+            [1, 4, 7],
+            [2, 5, 8],
+            [0, 4, 8],
+            [2, 4, 6]
+        ];
+
+        let freeCells = 0;
+        for (let i = 0; i < 9; i++)
+            if (!currentBoard[i])
+                ++freeCells;
+
+        if (!freeCells)
+            return 0;
+
+        for (let idx of winnigPosition) {
+            if (currentBoard[idx[0]] === currentBoard[idx[1]] && currentBoard[idx[0]] === currentBoard[idx[2]]) {
+                if (currentBoard[idx[0]] === 1) {
+                    if (isFirstPlayerX) return 1;
+                    return 2;
+                }
+
+                if (currentBoard[idx[0]] == 2) {
+                    if (isFirstPlayerX) return 2;
+                    return 1;
+                }
+            }
+        }
+
+        return -1;
+    }
+
+    const getDP = (isComputerTurn, mask) => {
+        if (dp[isComputerTurn][mask] === -10000) {
+            let currentBoard = new Array(9);
+            let powerOfThree = new Array(9);
+            let nextMask = mask;
+
+            powerOfThree[0] = 1;
+
+            for (let i = 0; i < 9; i++) {
+                if (i) powerOfThree[i] = powerOfThree[i - 1] * 3;
+                currentBoard[i] = nextMask % 3;
+                nextMask = Math.floor(nextMask / 3);
+            }
+
+            let winner = getWinnerForDP(currentBoard);
+
+            let depth = 0;
+            let squaresOBJ = document.getElementsByClassName('square');
+
+            for (let i = 0; i < squaresOBJ.length; i++)
+                if (squaresOBJ[i].innerText)
+                    depth++;
+
+            if (winner === 0) dp[isComputerTurn][mask] = 0;
+            else if (winner === 1) dp[isComputerTurn][mask] = -10 + depth;
+            else if (winner === 2) dp[isComputerTurn][mask] = +10 - depth;
+            else {
+                if (isComputerTurn) {
+                    dp[isComputerTurn][mask] = -100;
+                    for (let i = 0; i < 9; i++)
+                        if (!currentBoard[i]) {
+                            nextMask = mask;
+                            if (isFirstPlayerX) nextMask += 2 * powerOfThree[i];
+                            else nextMask += powerOfThree[i];
+
+                            dp[isComputerTurn][mask] = Math.max(dp[isComputerTurn][mask], getDP(0, nextMask));
+                        }
+                }
+                else {
+                    dp[isComputerTurn][mask] = +100;
+                    for (let i = 0; i < 9; i++)
+                        if (!currentBoard[i]) {
+                            nextMask = mask;
+                            if (isFirstPlayerX) nextMask += powerOfThree[i];
+                            else nextMask += 2 * powerOfThree[i];
+
+                            dp[isComputerTurn][mask] = Math.min(dp[isComputerTurn][mask], getDP(1, nextMask));
+                        }
+                }
+            }
+        }
+
+        return dp[isComputerTurn][mask];
+    }
+
+    const getMask = () => {
+        let squaresOBJ = document.getElementsByClassName('square');
+        let powerOfThree = 1;
+        let mask = 0;
+
+        for (let i = 0; i < squaresOBJ.length; i++) {
+            if (squaresOBJ[i].innerText === 'X') mask += powerOfThree;
+            else if (squaresOBJ[i].innerText === 'O') mask += 2 * powerOfThree;
+            powerOfThree *= 3;
+        }
+
+        return mask;
+    }
 
     let firstPlayerScore = 0;
     let secondPlayerScore = 0;
@@ -162,13 +286,15 @@ const ticTacToeGame = (isFirstPlayerX, isComputerPlaying) => {
 
         moveDown(1);
         moveDown(2);
-        resetBoard();
+        setTimeout(() => {
+            resetBoard();
 
-        for (let i = 0; i < objs.length; i++)
-            if (i != objs.length - 1)
-                fadeOut(objs[i]);
-            else
-                fadeOut(objs[i], [nextWindow], ["block"]);
+            for (let i = 0; i < objs.length; i++)
+                if (i != objs.length - 1)
+                    fadeOut(objs[i]);
+                else
+                    fadeOut(objs[i], [nextWindow], ["block"]);
+        }, 200);
 
         stopExecution = true;
     }
@@ -253,8 +379,6 @@ const ticTacToeGame = (isFirstPlayerX, isComputerPlaying) => {
             let resetButtonOBJ = document.getElementById('resetAll');
             resetButtonOBJ.addEventListener('click', resetGame);
         }, 500);
-
-        console.log(`play ${round}`);
 
         let isFirstPlayerTurn = (round % 2 === isFirstPlayerX);
 
@@ -342,7 +466,45 @@ const ticTacToeGame = (isFirstPlayerX, isComputerPlaying) => {
         }
 
         if (!isFirstPlayerTurn && isComputerPlaying) {
-            if (!round) callback(round + 1, play);
+            setTimeout(() => {
+                resetButtonOBJ = document.getElementById('resetAll');
+                resetButtonOBJ.removeEventListener('click', resetGame);
+            }, 500);
+
+            if (isFirstPlayerTurn) {
+                if (round) moveDown(2);
+                moveUp(1);
+            }
+            else {
+                if (round) moveDown(1);
+                moveUp(2);
+            }
+
+            let currentMask = getMask();
+            let squaresOBJ = document.getElementsByClassName('square');
+            let nextMove = -1;
+            let powerOfThree = 1;
+            let nextMask = currentMask;
+            let nextMoves = [];
+
+            for (let i = 0; i < squaresOBJ.length; i++) {
+                if (!squaresOBJ[i].innerText) {
+                    nextMask = currentMask;
+                    if (isFirstPlayerX) nextMask += 2 * powerOfThree;
+                    else nextMask += powerOfThree;
+
+                    if (getDP(1, currentMask) === getDP(0, nextMask))
+                        nextMoves.push(i);
+                }
+                powerOfThree *= 3;
+            }
+
+            setTimeout(() => {
+                nextMove = nextMoves[Math.floor(Math.random() * nextMoves.length)];
+                if (isFirstPlayerX) squaresOBJ[nextMove].innerText = "O";
+                else squaresOBJ[nextMove].innerText = "X";
+                callback(round + 1, play);
+            }, 500);
         }
         else {
             let currentSymbol;

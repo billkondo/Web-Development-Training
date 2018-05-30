@@ -1,41 +1,56 @@
 document.getElementById('ONE').onclick = () => {
+    document.getElementById('ONE').disabled = true;
+    document.getElementById('backButton').disabled = false;
     let currentWindow = document.getElementById('start-menu');
     let nextWindow = document.getElementById('decision-menu');
+    let choicesOBJ = document.getElementsByClassName('choices');
 
     nextWindow.querySelector('#question').innerHTML = `Would you like to play with X or O ?`;
     fadeOut(currentWindow, [nextWindow], ["block"]);
+
+    for(let i = 0; i < choicesOBJ.length; i++) {
+        choicesOBJ[i].addEventListener('click', gameTrigger);
+        choicesOBJ[i].disabled = false;
+    }
 }
 
 document.getElementById('TWO').onclick = () => {
+    document.getElementById('TWO').disabled = true;
+    document.getElementById('backButton').disabled = false;
     let currentWindow = document.getElementById('start-menu');
     let nextWindow = document.getElementById('decision-menu');
+    let choicesOBJ = document.getElementsByClassName('choices');
 
     nextWindow.querySelector('#question').innerHTML = `Player 1,  <br> would you like to play with X or O ?`;
     fadeOut(currentWindow, [nextWindow], ["block"]);
+
+    for(let i = 0; i < choicesOBJ.length; i++) {
+        choicesOBJ[i].addEventListener('click', gameTrigger);
+        choicesOBJ[i].disabled = false;
+    }
 }
 
 document.getElementById('backButton').onclick = () => {
+    document.getElementById('backButton').disabled = true;
     let currentWindow = document.getElementById('decision-menu');
     let nextWindow = document.getElementById('start-menu');
 
     fadeOut(currentWindow, [nextWindow], ["block"]);
+    document.getElementById('ONE').disabled = false;
+    document.getElementById('TWO').disabled = false;
 }
 
-document.getElementById('choiceX').onclick = () => {
-    let isFirstPlayerX = 1;
+const gameTrigger = (e) => {
+    e.target.disabled = true;
 
-    let text = document.getElementById('decision-menu').querySelector('#question').innerText;
-    let isComputerPlaying = (text[0] === 'P') ? false : true;
+    let choicesOBJ = document.getElementsByClassName('choices');
+    for(let i = 0; i < choicesOBJ.length; i++)
+        choicesOBJ[i].addEventListener('click', gameTrigger);
 
-    prepareGame(isComputerPlaying);
+    let isFirstPlayerX;
 
-    setTimeout(() => {
-        ticTacToeGame(isFirstPlayerX, isComputerPlaying);
-    }, 1000);
-}
-
-document.getElementById('choiceO').onclick = () => {
-    let isFirstPlayerX = 0;
+    if(e.target.innerText === 'X') isFirstPlayerX = 1;
+    else isFirstPlayerX = 0;
 
     let text = document.getElementById('decision-menu').querySelector('#question').innerText;
     let isComputerPlaying = (text[0] === 'P') ? false : true;
@@ -125,6 +140,9 @@ const ticTacToeGame = (isFirstPlayerX, isComputerPlaying) => {
     let stopExecution = false;
 
     const resetGame = () => {
+        document.getElementById('ONE').disabled = false;
+        document.getElementById('TWO').disabled = false;
+
         let currentWindow = document.getElementById('game-menu');
         let nextWindow = document.getElementById('start-menu');
 

@@ -1,0 +1,106 @@
+*, html {
+    margin: 0;
+    padding: 0;
+}
+
+#app {
+    position: relative;
+    background-color: red;
+    height: 1200px;
+    width: 2100px;
+    margin: 50px auto;
+}
+
+#board {
+    background-color: beige;
+    height: 1000px;
+    width: inherit;
+}
+
+#titleBoard {
+    box-sizing: border-box;
+    height: 100px;
+    font-size: 70px;
+    padding-top: 20px;
+    text-align: center;
+    background-color: blue;
+    letter-spacing: 6px;
+}
+
+#actionBoard {
+    background: lightgreen;
+    height: 900px;
+    width: inherit;
+}
+
+#thresh {
+    box-sizing: border-box;
+    position: relative;
+    display: block;
+    float: left;
+    height: 70px;
+    width: 200px;
+    margin-left: 100px;
+    margin-top: 30px;
+    background: purple;
+    font-size: 40px;
+    font-family: cursive;
+    text-align: center;
+}
+
+#addButton {
+    box-sizing: border-box;
+    display: inline-block;
+    height: 70px;
+    width: 200px;
+    margin-top: 30px;
+    background: purple;
+    margin-left: 1350px;
+    vertical-align: top;
+    font-size: 40px;
+    font-family: cursive;
+}
+
+#question {
+    display: block;
+    height: 70px;
+    float: left;
+
+    margin-left: 100px;
+    margin-top: 20px;
+    width: 200px;
+}
+
+#print {
+    box-sizing: border-box;
+    display: block;
+    float: left;
+    height: 70px;
+    width: 200px;
+    margin-top: 20px;
+    background: purple;
+    margin-left: 1350px;
+    font-size: 40px;
+    font-family: cursive;
+}
+
+.title {
+    box-sizing: border-box;
+    height: 50px;
+    width: 300px;
+    text-align: center;
+    font-size: 40px; 
+}
+
+.dayOfWeek {
+    box-sizing: border-box;
+    display: inline-block;
+    position: relative;
+    margin: 0;
+    padding: 0;
+    height: 900px;
+    width: 300px;
+    background: lightcoral;
+    margin-right: -4px;
+    border-right: 5px dashed red; 
+}

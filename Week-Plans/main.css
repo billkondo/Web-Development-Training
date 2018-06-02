@@ -5,7 +5,6 @@
 
 #app {
     position: relative;
-    /* background-color: red; */
     height: 1200px;
     width: 2100px;
     margin: 50px auto;
@@ -24,12 +23,10 @@
     font-size: 70px;
     padding-top: 20px;
     text-align: center;
-    /* background-color: blue; */
     letter-spacing: 10px;
 }
 
 #actionBoard {
-    /* background: lightgreen; */
     height: 900px;
     width: inherit;
 }
@@ -130,4 +127,54 @@
 #question:active, #thresh:active, #addButton:active, #print:active {
     position: relative;
     top: 3px;
+}
+
+.modal-background {
+    /* display: none; */
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.5); 
+}
+
+.modal-box {
+    margin: 10% auto;
+    height: 50%;
+    width: 50%;
+}
+
+.modal-header {
+    height: 10%;
+    background-color: lightsalmon; 
+}
+
+.modal-body {
+    height: 85%;
+    background-color: white;
+}
+
+.modal-footer{
+    height: 5%;
+    background-color: lightsalmon;
+}
+
+#exitButton {
+    height: 50px;
+    width: 50px;
+    font-size: 50px;
+    color: lightslategray;
+    background: inherit;
+    border: none;
+    outline: none;
+}
+
+#exitButton:hover {
+    background: rgba(255, 0, 0, 0.5);
+}
+
+#exitButton:focus {
+    background: rgba(255, 0, 0, 0.2);
 }

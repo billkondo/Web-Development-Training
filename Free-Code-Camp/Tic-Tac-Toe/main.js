@@ -1,3 +1,18 @@
+/*
+    Computer Moves Variables
+*/
+
+const maxMask = 20000;
+let dp = new Array(2);
+
+const configureGame = () => {
+    for (let i = 0; i < 2; i++) dp[i] = new Array(maxMask);
+
+    for (let i = 0; i < 2; i++)
+        for (let j = 0; j < maxMask; j++)
+            dp[i][j] = -10000;
+}
+
 document.getElementById('ONE').onclick = () => {
     document.getElementById('ONE').disabled = true;
     document.getElementById('backButton').disabled = false;
@@ -119,8 +134,8 @@ const resetBoard = () => {
     let firstPlayerWarningOBJ = document.getElementById('firstPlayerWarning');
     let secondPlayerWarningOBJ = document.getElementById('secondPlayerWarning');
 
-    firstPlayerWarningOBJ.style.marginTop = "0px";
-    secondPlayerWarningOBJ.style.marginTop = "0px";
+    firstPlayerWarningOBJ.style.marginTop = "20px";
+    secondPlayerWarningOBJ.style.marginTop = "20px";
 }
 
 const ticTacToeGame = (isFirstPlayerX, isComputerPlaying) => {
@@ -136,15 +151,6 @@ const ticTacToeGame = (isFirstPlayerX, isComputerPlaying) => {
     */
 
     /* Compute Computer Moves */
-
-    const maxMask = 20000;
-    let dp = new Array(2);
-
-    for (let i = 0; i < 2; i++) dp[i] = new Array(maxMask);
-
-    for (let i = 0; i < 2; i++)
-        for (let j = 0; j < maxMask; j++)
-            dp[i][j] = -10000;
 
     const getWinnerForDP = (currentBoard) => {
         /*
@@ -210,7 +216,7 @@ const ticTacToeGame = (isFirstPlayerX, isComputerPlaying) => {
             let squaresOBJ = document.getElementsByClassName('square');
 
             for (let i = 0; i < squaresOBJ.length; i++)
-                if (squaresOBJ[i].innerText)
+                if (currentBoard[i] !== 0)
                     depth++;
 
             if (winner === 0) dp[isComputerTurn][mask] = 0;
@@ -471,14 +477,10 @@ const ticTacToeGame = (isFirstPlayerX, isComputerPlaying) => {
                 resetButtonOBJ.removeEventListener('click', resetGame);
             }, 500);
 
-            if (isFirstPlayerTurn) {
-                if (round) moveDown(2);
+            if (isFirstPlayerTurn)
                 moveUp(1);
-            }
-            else {
-                if (round) moveDown(1);
+            else
                 moveUp(2);
-            }
 
             let currentMask = getMask();
             let squaresOBJ = document.getElementsByClassName('square');
@@ -531,6 +533,7 @@ const ticTacToeGame = (isFirstPlayerX, isComputerPlaying) => {
                 let squares = document.getElementsByClassName('square');
 
                 const processClick = (e) => {
+                    e.preventDefault();
                     if (e.target.innerText) return;
                     e.target.innerText = currentSymbol;
 
@@ -588,20 +591,19 @@ const moveUp = (playerCard) => {
 
     let obj = document.getElementById(id);
 
-    let keyFrames = [
-        { transform: 'translateY(0px)' },
-        { transform: 'translateY(-100px)' }
-    ];
+    if (obj.style.marginTop === '-120px')
+        return;
 
-    let timing = {
-        duration: 300,
-        iterations: 1,
-        easing: 'ease-out'
-    };
+    obj.style.marginTop = '0px';
+    let pixels = 0;
 
-    let animations = obj.animate(keyFrames, timing);
-
-    animations.onfinish = () => { obj.style.marginTop = '-100px'; }
+    const move = setInterval(() => {
+        if (pixels <= -100) {
+            clearInterval(move);
+        }
+        pixels += -20;
+        obj.style.marginTop = pixels.toString() + "px";
+    }, 30);
 }
 
 const moveDown = (playerCard) => {
@@ -612,21 +614,20 @@ const moveDown = (playerCard) => {
 
     let obj = document.getElementById(id);
 
-    if (obj.style.marginTop === '0px')
+    if (obj.style.marginTop === '20px')
         return;
 
-    let keyFrames = [
-        { transform: 'translateY(0px)' },
-        { transform: 'translateY(100px)' }
-    ];
+    obj.style.marginTop = '-100px';
+    let pixels = -100;
 
-    let timing = {
-        duration: 300,
-        iterations: 1,
-        easing: 'ease-out'
-    };
-
-    let animations = obj.animate(keyFrames, timing);
-
-    animations.onfinish = () => { obj.style.marginTop = '0px'; }
+    const move = setInterval(() => {
+        if (pixels >= 0) {
+            clearInterval(move);
+        }
+        pixels += 20;
+        obj.style.marginTop = pixels.toString() + "px";
+    }, 30);
 }
+
+resetBoard();
+configureGame();

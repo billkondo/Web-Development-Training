@@ -1,18 +1,3 @@
-/*
-    Computer Moves Variables
-*/
-
-const maxMask = 20000;
-let dp = new Array(2);
-
-const configureGame = () => {
-    for (let i = 0; i < 2; i++) dp[i] = new Array(maxMask);
-
-    for (let i = 0; i < 2; i++)
-        for (let j = 0; j < maxMask; j++)
-            dp[i][j] = -10000;
-}
-
 document.getElementById('ONE').onclick = () => {
     document.getElementById('ONE').disabled = true;
     document.getElementById('backButton').disabled = false;
@@ -152,6 +137,15 @@ const ticTacToeGame = (isFirstPlayerX, isComputerPlaying) => {
 
     /* Compute Computer Moves */
 
+    const maxMask = 20000;
+    let dp = new Array(2);
+
+    for (let i = 0; i < 2; i++) dp[i] = new Array(maxMask);
+
+    for (let i = 0; i < 2; i++)
+        for (let j = 0; j < maxMask; j++)
+            dp[i][j] = -10000;
+
     const getWinnerForDP = (currentBoard) => {
         /*
             Returns
@@ -171,14 +165,6 @@ const ticTacToeGame = (isFirstPlayerX, isComputerPlaying) => {
             [2, 4, 6]
         ];
 
-        let freeCells = 0;
-        for (let i = 0; i < 9; i++)
-            if (!currentBoard[i])
-                ++freeCells;
-
-        if (!freeCells)
-            return 0;
-
         for (let idx of winnigPosition) {
             if (currentBoard[idx[0]] === currentBoard[idx[1]] && currentBoard[idx[0]] === currentBoard[idx[2]]) {
                 if (currentBoard[idx[0]] === 1) {
@@ -192,6 +178,15 @@ const ticTacToeGame = (isFirstPlayerX, isComputerPlaying) => {
                 }
             }
         }
+
+        let freeCells = 0;
+        for (let i = 0; i < 9; i++)
+            if (!currentBoard[i])
+                ++freeCells;
+
+        if (!freeCells)
+            return 0;
+
 
         return -1;
     }
@@ -213,10 +208,8 @@ const ticTacToeGame = (isFirstPlayerX, isComputerPlaying) => {
             let winner = getWinnerForDP(currentBoard);
 
             let depth = 0;
-            let squaresOBJ = document.getElementsByClassName('square');
-
-            for (let i = 0; i < squaresOBJ.length; i++)
-                if (currentBoard[i] !== 0)
+            for (let i = 0; i < currentBoard.length; i++)
+                if (currentBoard[i] > 0)
                     depth++;
 
             if (winner === 0) dp[isComputerTurn][mask] = 0;
@@ -486,12 +479,11 @@ const ticTacToeGame = (isFirstPlayerX, isComputerPlaying) => {
             let squaresOBJ = document.getElementsByClassName('square');
             let nextMove = -1;
             let powerOfThree = 1;
-            let nextMask = currentMask;
             let nextMoves = [];
 
             for (let i = 0; i < squaresOBJ.length; i++) {
                 if (!squaresOBJ[i].innerText) {
-                    nextMask = currentMask;
+                    let nextMask = currentMask;
                     if (isFirstPlayerX) nextMask += 2 * powerOfThree;
                     else nextMask += powerOfThree;
 
@@ -630,4 +622,3 @@ const moveDown = (playerCard) => {
 }
 
 resetBoard();
-configureGame();

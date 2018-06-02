@@ -1,5 +1,59 @@
+/* 
+    CSS Reset
+    http://meyerweb.com/eric/tools/css/reset/ 
+    v2.0 | 20110126
+    License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
 body {
-    background-color: rgba(90, 86, 86, 0.431);
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/* Start of Project CSS */
+
+body {
+    background-color: beige;
 }
 
 #table {
@@ -20,15 +74,15 @@ body {
     box-shadow: 10px 0px 20px #333, 
                 -10px 0 20px #333, 
                 0 30px 20px -10px #333,
-                10px 10px 20px rgb(129, 85, 3) inset,
-                -10px -10px 20px rgb(145, 96, 4) inset;
+                10px 10px 20px rgb(177, 116, 4) inset,
+                -10px -10px 20px rgb(177, 116, 4) inset;
 }
 
 #board {
     box-sizing: border-box;
     position: relative;
    
-    background: radial-gradient(rgb(5, 133, 5), rgb(0, 36, 5)); 
+    background: radial-gradient(rgb(6, 223, 6), rgb(2, 36, 6)); 
 
     height: 650px; 
     width: 600px;
@@ -39,8 +93,8 @@ body {
     border-collapse: collapse;
     border-radius: 40px;
 
-    box-shadow: 10px 10px 20px rgb(1, 32, 1) inset,
-                -10px -10px 20px rgb(0, 24, 0) inset;
+    box-shadow: 10px 10px 20px rgb(3, 61, 3) inset,
+                -10px -10px 20px rgb(3, 61, 3) inset;
 }
 
 /* Start Menu Style */
@@ -50,12 +104,12 @@ body {
 }
 
 #question {
-    color: rgba(245, 241, 241, 0.973);
+    color: white;
     box-sizing: border-box;
 
     text-align: center;
 
-    padding-top: 35px;
+    padding-top: 45px;
     padding-left: 50px;
     padding-right: 30px;
     padding-bottom: 50px;
@@ -183,7 +237,7 @@ button:focus {
     box-sizing: border-box;
     display: none;
 
-    margin: 0;
+    margin-top: 10px;
     color: rgba(211, 80, 57, 0.829);
     text-shadow: 1px 3px 10px #333;
     margin-left: 60px;
@@ -211,6 +265,7 @@ button:focus {
     height: 100px;
     width: 200px;
 
+    padding-top: 30px; 
     margin-left: 40px; 
 
     background: rgb(33, 65, 153);
@@ -231,6 +286,7 @@ button:focus {
     height: 100px;
     width: 200px;
 
+    padding-top: 30px;
     margin-left: 420px; 
 
     background: rgb(38, 122, 143); 

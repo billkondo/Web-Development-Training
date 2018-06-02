@@ -5,7 +5,7 @@
 
 #app {
     position: relative;
-    background-color: red;
+    /* background-color: red; */
     height: 1200px;
     width: 2100px;
     margin: 50px auto;
@@ -15,6 +15,7 @@
     background-color: beige;
     height: 1000px;
     width: inherit;
+    border: 1px solid black;
 }
 
 #titleBoard {
@@ -23,12 +24,12 @@
     font-size: 70px;
     padding-top: 20px;
     text-align: center;
-    background-color: blue;
-    letter-spacing: 6px;
+    /* background-color: blue; */
+    letter-spacing: 10px;
 }
 
 #actionBoard {
-    background: lightgreen;
+    /* background: lightgreen; */
     height: 900px;
     width: inherit;
 }
@@ -42,10 +43,14 @@
     width: 200px;
     margin-left: 100px;
     margin-top: 30px;
-    background: purple;
-    font-size: 40px;
+    background: lightcoral;
+    font-size: 30px;
     font-family: cursive;
     text-align: center;
+    padding-top: 5px;
+    border: 1px solid black;
+    border-radius: 30px;
+    outline: none;
 }
 
 #addButton {
@@ -54,34 +59,44 @@
     height: 70px;
     width: 200px;
     margin-top: 30px;
-    background: purple;
-    margin-left: 1350px;
+    background: greenyellow;
+    margin-left: 1450px;
     vertical-align: top;
-    font-size: 40px;
+    font-size: 30px;
     font-family: cursive;
+    border: 1px solid black;
+    border-radius: 30px;
+    outline: none;
 }
 
 #question {
     display: block;
     height: 70px;
     float: left;
-
     margin-left: 100px;
     margin-top: 20px;
     width: 200px;
+    background: lightskyblue;
+    border: 1px solid black;
+    border-radius: 30px;
+    outline: none;
 }
 
 #print {
+    border-collapse: separate;
     box-sizing: border-box;
     display: block;
     float: left;
     height: 70px;
     width: 200px;
     margin-top: 20px;
-    background: purple;
-    margin-left: 1350px;
-    font-size: 40px;
+    background: yellowgreen;
+    margin-left: 1450px;
+    font-size: 30px;
     font-family: cursive;
+    border: 1px solid black;
+    border-radius: 30px;
+    outline: none;
 }
 
 .title {
@@ -89,7 +104,9 @@
     height: 50px;
     width: 300px;
     text-align: center;
-    font-size: 40px; 
+    font-size: 40px;
+    letter-spacing: -3px;
+    font-family: cursive;
 }
 
 .dayOfWeek {
@@ -98,9 +115,19 @@
     position: relative;
     margin: 0;
     padding: 0;
-    height: 900px;
+    height: 870px;
     width: 300px;
-    background: lightcoral;
+    /* background: lightcoral; */
+    margin-top: 15px;
     margin-right: -4px;
-    border-right: 5px dashed red; 
+    border-right: 5px dashed rgb(241, 241, 144);
+}
+
+#actionBoard>.dayOfWeek:last-child {
+    border-right: none;
+}
+
+#question:active, #thresh:active, #addButton:active, #print:active {
+    position: relative;
+    top: 3px;
 }

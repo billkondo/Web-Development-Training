@@ -51,6 +51,10 @@ table {
 
 /* Start of App CSS */
 
+body {
+    overflow: hidden;
+}
+
 #app {
     position: relative;
     height: 1200px;
@@ -59,6 +63,7 @@ table {
 }
 
 #board {
+    box-sizing: border-box;
     background-color: beige;
     height: 1000px;
     width: inherit;
@@ -236,18 +241,29 @@ table {
 }
 
 .note-empty {
+    box-sizing: border-box;
     height: 120px;
     width: 250px;
-    background: lightpink;
+    background: beige;
     margin: 40px auto;
 }
 
+/* .note-empty:hover {
+    background-color: lemonchiffon;
+    border: 3px dashed lightcoral;
+} */
+
 #test {
+    box-sizing: border-box;
     position: absolute;
-    height: 110px;
-    width: 240px;
+    height: 120px;
+    width: 250px;
     background: lightseagreen;
     margin: 2px auto;
     cursor: pointer;
     z-index: 1;
+}
+
+.no-click {
+    pointer-events: none;
 }

@@ -27,6 +27,10 @@ setDaysOfWeek();
 
 /* Drag and Drop Functionality */
 
+/*
+    Objects need to have the mousedown event in order to drag them.
+*/
+
 let objBeingDragged = null;
 let parentOfDragged = null;
 let isMouseDown = false;
@@ -80,9 +84,6 @@ const onMouseMove = (e) => {
     }
 }
 
-// Remove this line
-document.getElementById('test').onmousedown = onMouseDown;
-
 const resetObj = () => {
     if (dropZoneObj) {
         dropZoneObj.style.border = "none";
@@ -108,10 +109,29 @@ const startDragEvents = () => {
         resetObj();
     }
 
-    for (let note of objNoteEmpty) {
+    for (let i = 0; i < objNoteEmpty.length; i++) {
+        note = objNoteEmpty[i];
         note.addEventListener('mouseenter', onMouseEnter);
         note.addEventListener('mouseleave', onMouseLeave);
     }
 }
 
+document.getElementById('test').onmousedown = onMouseDown;
+
 startDragEvents();
+
+/* Modal Functionality */
+
+const startModal = () => {
+    document.getElementById("addButton").onclick = () => {
+        console.log('click');
+        document.getElementById("modal-background").style.display = "block";
+    }
+
+    document.getElementById('exitButton').onclick = () => {
+        document.getElementById('modal-background').style.display = "none";
+    }
+}
+
+startModal();
+

@@ -175,7 +175,6 @@ body {
     padding: 0;
     height: 870px;
     width: 300px;
-    /* background: lightcoral; */
     margin-top: 15px;
     margin-right: -4px;
     border-right: 5px dashed rgb(241, 241, 144);
@@ -190,7 +189,7 @@ body {
     top: 3px;
 }
 
-.modal-background {
+#modal-background {
     display: none;
     position: fixed;
     top: 0;
@@ -199,37 +198,57 @@ body {
     width: 100%;
     z-index: 1;
     background-color: rgba(0, 0, 0, 0.5); 
+
+    animation-name: modalopen;
+    animation-duration: 1s;
 }
 
 .modal-box {
-    margin: 10% auto;
-    height: 50%;
-    width: 50%;
+    box-sizing: border-box;
+
+    margin: 200px auto;
+    height: 700px;
+    width: 1200px;
 }
 
 .modal-header {
-    height: 10%;
+    box-sizing: border-box;
+
+    height: 70px;
     background-color: lightsalmon; 
 }
 
 .modal-body {
-    height: 85%;
+    box-sizing: border-box;
+
+    height: 595px;
     background-color: white;
 }
 
 .modal-footer{
-    height: 5%;
+    box-sizing: border-box;
+
+    height: 35px;
     background-color: lightsalmon;
 }
 
+@keyframes modalopen {
+    from {opacity: 0}
+    to {opacity: 1}
+}
+
 #exitButton {
-    height: 50px;
-    width: 50px;
-    font-size: 50px;
+    box-sizing: border-box;
+
+    height: 70px;
+    width: 70px;
+    font-size: 70px;
     color: lightslategray;
     background: inherit;
     border: none;
     outline: none;
+
+    margin-left: 1130px;
 }
 
 #exitButton:hover {
@@ -247,11 +266,6 @@ body {
     background: beige;
     margin: 40px auto;
 }
-
-/* .note-empty:hover {
-    background-color: lemonchiffon;
-    border: 3px dashed lightcoral;
-} */
 
 #test {
     box-sizing: border-box;

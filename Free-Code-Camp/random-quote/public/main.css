@@ -141,9 +141,10 @@ button:active {
   box-sizing: border-box;
   display: inline-block;
   margin-left: 200px;
-  font-size: 30px;
+  font-size: 20px;
   font-family: cursive;
-  padding-top: 7px;
+  padding-top: 15px;
+  height: 50px;
 
   letter-spacing: 6px;
   color: lightgoldenrodyellow;

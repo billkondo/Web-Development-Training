@@ -16,3 +16,4 @@ In this project, we will implement a random quote generator.
 ### Notes
 
 * The [Random quotes API](https://talaikis.com/random_quotes_api) was used 
+* Used [Font Awesome Library](https://fontawesome.com) to get the twitter icon 

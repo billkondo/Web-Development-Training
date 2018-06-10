@@ -1,8 +1,8 @@
 /*
-    CSS Reset
-    http://meyerweb.com/eric/tools/css/reset/ 
-    v2.0 | 20110126
-    License: none (public domain)
+  CSS Reset
+  http://meyerweb.com/eric/tools/css/reset/ 
+  v2.0 | 20110126
+  License: none (public domain)
 */
 
 html, body, div, span, applet, object, iframe,
@@ -52,232 +52,222 @@ table {
 /* Start of App CSS */
 
 body {
-    overflow: hidden;
+  overflow: hidden;
 }
 
 #app {
-    position: relative;
-    height: 1200px;
-    width: 2100px;
-    margin: 50px auto;
+  position: relative;
+  height: 1200px;
+  width: 2100px;
+  margin: 50px auto;
 }
 
 #board {
-    box-sizing: border-box;
-    background-color: beige;
-    height: 1000px;
-    width: inherit;
-    border: 1px solid black;
+  box-sizing: border-box;
+  background-color: beige;
+  height: 1000px;
+  width: inherit;
+  border: 1px solid black;
 }
 
 #titleBoard {
-    box-sizing: border-box;
-    height: 100px;
-    font-size: 70px;
-    padding-top: 20px;
-    text-align: center;
-    letter-spacing: 10px;
+  box-sizing: border-box;
+  height: 100px;
+  font-size: 70px;
+  padding-top: 20px;
+  text-align: center;
+  letter-spacing: 10px;
 }
 
 #actionBoard {
-    height: 900px;
-    width: inherit;
+  height: 900px;
+  width: inherit;
 }
 
 #thresh {
-    box-sizing: border-box;
-    position: relative;
-    display: block;
-    float: left;
-    height: 70px;
-    width: 200px;
-    margin-left: 100px;
-    margin-top: 30px;
-    background: lightcoral;
-    font-size: 30px;
-    font-family: cursive;
-    text-align: center;
-    padding-top: 15px;
-    border: 1px solid black;
-    border-radius: 30px;
-    outline: none;
+  box-sizing: border-box;
+  position: relative;
+  display: block;
+  float: left;
+  height: 70px;
+  width: 200px;
+  margin-left: 100px;
+  margin-top: 30px;
+  background: lightcoral;
+  font-size: 30px;
+  font-family: cursive;
+  text-align: center;
+  padding-top: 15px;
+  border: 1px solid black;
+  border-radius: 30px;
+  outline: none;
 }
 
 #addButton {
-    box-sizing: border-box;
-    display: inline-block;
-
-    height: 70px;
-    width: 200px;
-
-    margin-top: 30px;
-    margin-left: 1450px;
-    
-    background: greenyellow;
-    border: 1px solid black;
-    border-radius: 30px;
-    
-    vertical-align: top;
-    
-    font-size: 30px;
-    font-family: cursive;
-
-    outline: none;
-
-    cursor: pointer;
+  box-sizing: border-box;
+  display: inline-block;
+  height: 70px;
+  width: 200px;
+  margin-top: 30px;
+  margin-left: 1450px;
+  background: greenyellow;
+  border: 1px solid black;
+  border-radius: 30px;
+  vertical-align: top;
+  font-size: 30px;
+  font-family: cursive;
+  outline: none;
+  cursor: pointer;
 }
 
 #question {
-    display: block;
-    height: 70px;
-    float: left;
-    margin-left: 100px;
-    margin-top: 20px;
-    width: 200px;
-    background: lightskyblue;
-    border: 1px solid black;
-    border-radius: 30px;
-    outline: none;
+  display: block;
+  height: 70px;
+  float: left;
+  margin-left: 100px;
+  margin-top: 20px;
+  width: 200px;
+  background: lightskyblue;
+  border: 1px solid black;
+  border-radius: 30px;
+  outline: none;
 }
 
 #print {
-    border-collapse: separate;
-    box-sizing: border-box;
-    display: block;
-    float: left;
-    height: 70px;
-    width: 200px;
-    margin-top: 20px;
-    background: yellowgreen;
-    margin-left: 1450px;
-    font-size: 30px;
-    font-family: cursive;
-    border: 1px solid black;
-    border-radius: 30px;
-    outline: none;
+  border-collapse: separate;
+  box-sizing: border-box;
+  display: block;
+  float: left;
+  height: 70px;
+  width: 200px;
+  margin-top: 20px;
+  background: yellowgreen;
+  margin-left: 1450px;
+  font-size: 30px;
+  font-family: cursive;
+  border: 1px solid black;
+  border-radius: 30px;
+  outline: none;
 }
 
 .title {
-    box-sizing: border-box;
-    height: 50px;
-    width: 300px;
-    text-align: center;
-    font-size: 40px;
-    letter-spacing: -3px;
-    font-family: cursive;
+  box-sizing: border-box;
+  height: 50px;
+  width: 300px;
+  text-align: center;
+  font-size: 40px;
+  letter-spacing: -3px;
+  font-family: cursive;
 }
 
 .dayOfWeek {
-    box-sizing: border-box;
-    display: inline-block;
-    position: relative;
-    margin: 0;
-    padding: 0;
-    height: 870px;
-    width: 300px;
-    margin-top: 15px;
-    margin-right: -4px;
-    border-right: 5px dashed rgb(241, 241, 144);
+  box-sizing: border-box;
+  display: inline-block;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  height: 870px;
+  width: 300px;
+  margin-top: 15px;
+  margin-right: -4px;
+  border-right: 5px dashed rgb(241, 241, 144);
 }
 
 #actionBoard>.dayOfWeek:last-child {
-    border-right: none;
+  border-right: none;
 }
 
 #question:active, #thresh:active, #addButton:active, #print:active {
-    position: relative;
-    top: 3px;
+  position: relative;
+  top: 3px;
 }
 
 #modal-background {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    z-index: 1;
-    background-color: rgba(0, 0, 0, 0.5); 
-
-    animation-name: modalopen;
-    animation-duration: 1s;
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.5);
+  animation-name: modalopen;
+  animation-duration: 1s;
 }
 
 .modal-box {
-    box-sizing: border-box;
-
-    margin: 200px auto;
-    height: 700px;
-    width: 1200px;
+  box-sizing: border-box;
+  margin: 200px auto;
+  height: 700px;
+  width: 1200px;
 }
 
 .modal-header {
-    box-sizing: border-box;
-
-    height: 70px;
-    background-color: lightsalmon; 
+  box-sizing: border-box;
+  height: 70px;
+  background-color: lightsalmon;
 }
 
 .modal-body {
-    box-sizing: border-box;
-
-    height: 595px;
-    background-color: white;
+  box-sizing: border-box;
+  height: 595px;
+  background-color: white;
 }
 
-.modal-footer{
-    box-sizing: border-box;
-
-    height: 35px;
-    background-color: lightsalmon;
+.modal-footer {
+  box-sizing: border-box;
+  height: 35px;
+  background-color: lightsalmon;
 }
 
 @keyframes modalopen {
-    from {opacity: 0}
-    to {opacity: 1}
+  from {
+    opacity: 0
+  }
+  to {
+    opacity: 1
+  }
 }
 
 #exitButton {
-    box-sizing: border-box;
-
-    height: 70px;
-    width: 70px;
-    font-size: 70px;
-    color: lightslategray;
-    background: inherit;
-    border: none;
-    outline: none;
-
-    margin-left: 1130px;
+  box-sizing: border-box;
+  height: 70px;
+  width: 70px;
+  font-size: 70px;
+  color: lightslategray;
+  background: inherit;
+  border: none;
+  outline: none;
+  margin-left: 1130px;
 }
 
 #exitButton:hover {
-    background: rgba(255, 0, 0, 0.5);
+  background: rgba(255, 0, 0, 0.5);
 }
 
 #exitButton:focus {
-    background: rgba(255, 0, 0, 0.2);
+  background: rgba(255, 0, 0, 0.2);
 }
 
 .note-empty {
-    box-sizing: border-box;
-    height: 120px;
-    width: 250px;
-    background: beige;
-    margin: 40px auto;
+  box-sizing: border-box;
+  height: 120px;
+  width: 250px;
+  background: beige;
+  margin: 40px auto;
 }
 
 #test {
-    box-sizing: border-box;
-    position: absolute;
-    height: 120px;
-    width: 250px;
-    background: lightseagreen;
-    margin: 2px auto;
-    cursor: pointer;
-    z-index: 1;
+  box-sizing: border-box;
+  position: absolute;
+  height: 120px;
+  width: 250px;
+  background: lightseagreen;
+  margin: 2px auto;
+  cursor: pointer;
+  z-index: 1;
 }
 
 .no-click {
-    pointer-events: none;
+  pointer-events: none;
 }

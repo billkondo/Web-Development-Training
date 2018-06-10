@@ -49,7 +49,7 @@ class RandomQuoteMachine extends React.Component {
 
         <footer>
           <button onClick={() => this.getNewQuote()} id="new-quote">New Quote</button>
-          <a href={this.state.currentTwitterURL} target="_blank"><button id="tweet-quote"><i className="fab fa-twitter"></i></button></a>
+          <a href={this.state.currentTwitterURL} target="_blank" id="tweet-quote"><button id="tweet-style"><i className="fab fa-twitter"></i></button></a>
           <div id="author">
             {
               this.state.author ? this.state.author : "Unknown"

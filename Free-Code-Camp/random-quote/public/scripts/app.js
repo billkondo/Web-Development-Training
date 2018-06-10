@@ -94,10 +94,10 @@ var RandomQuoteMachine = function (_React$Component) {
           ),
           React.createElement(
             "a",
-            { href: this.state.currentTwitterURL, target: "_blank" },
+            { href: this.state.currentTwitterURL, target: "_blank", id: "tweet-quote" },
             React.createElement(
               "button",
-              { id: "tweet-quote" },
+              { id: "tweet-style" },
               React.createElement("i", { className: "fab fa-twitter" })
             )
           ),

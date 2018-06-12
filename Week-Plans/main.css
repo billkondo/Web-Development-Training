@@ -51,8 +51,8 @@ table {
 
 /* Start of App CSS */
 
-body {
-  overflow: hidden;
+body, button {
+  font-family: 'Lobster';
 }
 
 #app {
@@ -95,7 +95,6 @@ body {
   margin-top: 30px;
   background: lightcoral;
   font-size: 30px;
-  font-family: cursive;
   text-align: center;
   padding-top: 15px;
   border: 1px solid black;
@@ -115,7 +114,6 @@ body {
   border-radius: 30px;
   vertical-align: top;
   font-size: 30px;
-  font-family: cursive;
   outline: none;
   cursor: pointer;
 }
@@ -144,7 +142,6 @@ body {
   background: yellowgreen;
   margin-left: 1450px;
   font-size: 30px;
-  font-family: cursive;
   border: 1px solid black;
   border-radius: 30px;
   outline: none;
@@ -157,7 +154,6 @@ body {
   text-align: center;
   font-size: 40px;
   letter-spacing: -3px;
-  font-family: cursive;
 }
 
 .dayOfWeek {
@@ -204,8 +200,31 @@ body {
 
 .modal-header {
   box-sizing: border-box;
+  
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: repeat(20, 1fr);
+
   height: 70px;
   background-color: lightsalmon;
+}
+
+#modal-select {
+  position: relative;
+  grid-column: 2/8;
+  font-size: 30px;
+  height: 80%;
+  align-self: center;
+  outline: none;
+  font-family: 'Lobster';
+  background-color: lightskyblue;
+  color: black;
+}
+
+.modal-select-option {
+  background-color: lightblue;
+  color: #333;
+  font-size: 20px;
 }
 
 .modal-body {
@@ -230,15 +249,9 @@ body {
 }
 
 #exitButton {
-  box-sizing: border-box;
-  height: 70px;
-  width: 70px;
-  font-size: 70px;
-  color: lightslategray;
-  background: inherit;
-  border: none;
-  outline: none;
-  margin-left: 1130px;
+  color: gray;
+  grid-column: 20/21;
+  font-size: 50px;
 }
 
 #exitButton:hover {

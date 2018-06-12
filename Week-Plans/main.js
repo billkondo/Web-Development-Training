@@ -2,8 +2,15 @@ const setTitles = () => {
   const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
   let daysOBJ = document.getElementsByClassName('title');
 
-  for (let i = 0; i < daysOBJ.length; i++)
+  for (let i = 0; i < daysOBJ.length; i++) {
     daysOBJ[i].innerText = days[i];
+
+    let newOption = document.createElement('option');
+    newOption.innerText = days[i];
+    newOption.value = i;
+    newOption.classList.add('modal-select-option');
+    document.getElementById('modal-select').appendChild(newOption);
+  }
 }
 
 const setDaysOfWeek = () => {
@@ -18,16 +25,11 @@ const setDaysOfWeek = () => {
   }
 }
 
-window.onmousedown = (e) => {
-  e.preventDefault();
-}
-
 setTitles();
 setDaysOfWeek();
 
-/* Drag and Drop Functionality */
-
-/*
+/* 
+  Drag and Drop Functionality 
   Objects need to have the mousedown event in order to drag them.
 */
 
@@ -124,7 +126,6 @@ startDragEvents();
 
 const startModal = () => {
   document.getElementById("addButton").onclick = () => {
-    console.log('click');
     document.getElementById("modal-background").style.display = "block";
   }
 

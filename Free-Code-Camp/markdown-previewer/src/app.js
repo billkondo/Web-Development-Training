@@ -28,9 +28,7 @@ class Preview extends React.Component {
 
   getHTML() {
     return {
-      __html: marked(this.props.text, {
-        sanitize: true
-      })
+      __html: marked(this.props.text)
     };
   }
 
@@ -68,13 +66,15 @@ class MarkdownPreviewer extends React.Component {
       \n ## Write markdown in this screen
       \n To remember the markdown syntax, check this [link](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet).
       \n To write inline code, we put the code between back-ticks. Like in this example: \`<div><div>\`.
-      \n ${str}
-      \n ${comment} This is a block code\n let msg = "Hello World!"\n alert(msg)
-      \n ${str}
+      \n ${str}\n ${comment} This is a block code\n\n let msg = "Hello World!"\n alert(msg)\n\n ${str}
       \n Example of lists:
-      \n * Use Asterisk for unordered list\n + You can also use pluses\n - And minuses
-      \n 1. Use Numbers for ordered lists\n 2. Second Item
-      \n\n You can also create blockquotes:
+      \n * Use Asterisk for unordered lists\n + You can also use pluses\n - And minuses\n
+      \n 1. Use Numbers to create ordered lists\n 2. Second Item from List\n
+      \n You can create blockquotes:
+      \n > Blockquotes are userful to highlight some text\n
+      \n To add an image, you can do this: \n\n![smile](https://upload.wikimedia.org/wikipedia/commons/7/73/Facebook_Haha_React.png)\n
+      \n And finally, this is how we can get text emphasis:
+      \n * Italics: *asterisks* or _underscores_\n * Bold: **asteriks** or __underscores__\n * Mix: **asterisks and _underscores_**\n * Strikethrough: ~~two tildes~~
       `;
 
     console.log(startMarkdown);

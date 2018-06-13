@@ -76,9 +76,7 @@ class MarkdownPreviewer extends React.Component {
       \n And finally, this is how we can get text emphasis:
       \n * Italics: *asterisks* or _underscores_\n * Bold: **asteriks** or __underscores__\n * Mix: **asterisks and _underscores_**\n * Strikethrough: ~~two tildes~~
       `;
-
-    console.log(startMarkdown);
-
+      
     this.setState({ markdown: startMarkdown })
   }
 

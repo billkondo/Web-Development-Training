@@ -1,11 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import './styles.scss'
 
 class Editor extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const startValue = this.props.text;
 
@@ -21,12 +18,7 @@ class Editor extends React.Component {
 }
 
 class Preview extends React.Component {
-  constructor(props) {
-    super(props);
-    this.getHTML = this.getHTML.bind(this);
-  }
-
-  getHTML() {
+  getHTML = () => {
     return {
       __html: marked(this.props.text)
     };
@@ -44,16 +36,11 @@ class Preview extends React.Component {
 }
 
 class MarkdownPreviewer extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      markdown: ""
-    }
-
-    this.changeMarkdown = this.changeMarkdown.bind(this);
+  state = {
+    markdown: ""
   }
 
-  changeMarkdown(text) {
+  changeMarkdown = (text) => {
     this.setState({ markdown: text });
   }
 
@@ -76,7 +63,7 @@ class MarkdownPreviewer extends React.Component {
       \n And finally, this is how we can get text emphasis:
       \n * Italics: *asterisks* or _underscores_\n * Bold: **asteriks** or __underscores__\n * Mix: **asterisks and _underscores_**\n * Strikethrough: ~~two tildes~~
       `;
-      
+
     this.setState({ markdown: startMarkdown })
   }
 

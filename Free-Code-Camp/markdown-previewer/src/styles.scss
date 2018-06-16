@@ -1,3 +1,134 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+$colorEditor: lightblue;
+$backgroundHTML: lightcyan;
+
 * {
-  color: red;
+  box-sizing: border-box;
+}
+
+html, body {
+  display: block;
+  height: 100%;
+  overflow: scroll-y;
+}
+
+#app {
+  height: 100%;
+}
+
+.MarkdownPreviewer {
+  height: 100%;
+  display: grid;
+  grid-template-rows: 1fr 3fr;
+  grid-template-columns: 1fr; 
+  overflow: scroll-y;
+}
+
+.Header {
+  display: block;
+  width: 100%;
+  height: 30px;
+  background-color: lightsteelblue;
+
+  border: 1px solid black;
+  border-bottom: none; 
+}
+
+.Editor {
+  display: block;
+  justify-self: center;
+  height: 90%;
+  width: 40%;
+  margin-top: 10px;
+}
+
+textarea {
+  display: block;
+  height: 90%;
+  width: 100%;
+  outline: none;
+  resize: vertical;
+
+  font-size: 20px;
+  padding-top: 20px; 
+  background-color: $colorEditor; 
+}
+
+#editor {
+  display: block;
+  border: 1px solid black; 
+  border-top: none;
+}
+
+.Preview {
+  display: block;
+  justify-self: center;
+  width: 70%;
+  max-height: 100%;
+  margin-top: 20px;
+}
+
+#preview {
+  position: absolute;
+  width: inherit;
+  height: 60%;
+  border: 1px solid black;
+  border-top: none; 
+  overflow: auto;
+
+  padding: 30px;
+}
+
+#preview {
+  h1 {
+    color: greenyellow;
+  }
 }

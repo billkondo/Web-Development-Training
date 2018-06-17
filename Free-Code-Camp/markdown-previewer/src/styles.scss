@@ -57,6 +57,7 @@ $backgroundHTML: lightcyan;
 html, body {
   display: block;
   height: 100%;
+  width: 100%;
   background-color:  $backgroundHTML;
 }
 
@@ -87,6 +88,8 @@ html {
 
   padding-top: 5px;
   padding-left: 2px;  
+
+  text-shadow: 1px -1px 0px #333;
 }
 
 .Editor {
@@ -113,6 +116,7 @@ textarea {
   display: block;
   border: 1px solid black; 
   border-top: none;
+  box-shadow: 0px 20px 10px -13px #333;
 }
 
 .Preview {
@@ -125,8 +129,8 @@ textarea {
 
 #preview {
   position: absolute;
-  width: inherit;
   height: 70%;
+  width: inherit;
   border: 1px solid black;
   border-top: none; 
   overflow: auto;
@@ -134,6 +138,7 @@ textarea {
   padding: 30px;
   color: #333;
   background-color: $colorEditor;
+  box-shadow: 0px 20px 10px -13px #333;
 }
 
 .icon-page {

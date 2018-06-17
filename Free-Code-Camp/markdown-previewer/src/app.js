@@ -5,6 +5,8 @@ import './styles.scss';
 
 class Header extends React.Component {
   render() {
+    const type = this.props.type;
+
     return (
       <div className="Header">
         <div>
@@ -12,9 +14,15 @@ class Header extends React.Component {
           <div className="text-header"> {this.props.title} </div>
 
           {
-            this.props.zoom ? 
-            <i className="far fa-window-restore fa-lg header-button"></i> :
-            <i className="far fa-window-maximize fa-lg header-button"></i>
+            this.props.zoom ?
+              <i
+                className="far fa-window-restore fa-lg header-button"
+                onClick={() => this.props.changeState(type)}
+              /> :
+              <i
+                className="far fa-window-maximize fa-lg header-button"
+                onClick={() => this.props.changeState(type)}
+              />
           }
         </div>
       </div>
@@ -23,19 +31,49 @@ class Header extends React.Component {
 }
 
 class Editor extends React.Component {
+  getFullScreen = () => {
+    const fullscreen = {
+      height: "95%",
+      width: "80%",
+    }
+
+    if (window.matchMedia("(max-width: 800px)").matches) {
+      console.log('aki');
+      fullscreen.height = "100%";
+      fullscreen.width = "100%";
+      fullscreen.margin = "0";
+    }
+
+    return fullscreen;
+  }
+
   render() {
     const startValue = this.props.text;
 
+    const full = {
+      height: "100%",
+      padding: "30px"
+    }
+
     return (
-      <div className="Editor">
-        <Header 
+      <div
+        style={this.props.zoom ? this.getFullScreen() : {}}
+        className="Editor"
+      >
+
+        <Header
           title={this.props.title}
+          changeState={this.props.changeState}
+          zoom={this.props.zoom}
+          type={0}
         />
 
         <textarea id="editor"
           value={startValue}
           onChange={(e) => this.props.changeMarkdown(e.target.value)}
+          style={this.props.zoom ? full : {}}
         />
+
       </div>
     );
   }
@@ -53,7 +91,7 @@ class Preview extends React.Component {
   correctLinks = () => {
     let links = document.getElementById('preview').getElementsByTagName('a');
 
-    for (let i = 0; i < links.length; i++) 
+    for (let i = 0; i < links.length; i++)
       links[i].target = "_blank";
   }
 
@@ -65,16 +103,59 @@ class Preview extends React.Component {
     this.correctLinks();
   }
 
+  getFullScreen = () => {
+    const fullscreen = {
+      height: "95%",
+      width: "80%",
+    }
+
+    if (window.matchMedia("(max-width: 800px)").matches) {
+      fullscreen.height = "100%";
+      fullscreen.width = "100%";
+      fullscreen.margin = "0";
+    }
+
+    return fullscreen;
+  }
+
+  getFull = () => {
+    const full = {
+      height: "95%",
+      padding: "30px"
+    }
+
+    if (window.matchMedia("(max-width: 800px)").matches) {
+      full.height = "100%";
+      full.margin = "0";
+    }
+
+    return full;
+  }
+
   render() {
+    const full = {
+      height: "95%",
+      padding: "30px"
+    }
+
     return (
-      <div className="Preview">
-        <Header 
+      <div
+        style={this.props.zoom ? this.getFullScreen() : {}}
+        className="Preview"
+      >
+
+        <Header
           title={this.props.title}
+          changeState={this.props.changeState}
+          zoom={this.props.zoom}
+          type={1}
         />
 
         <div id="preview"
           dangerouslySetInnerHTML={this.getHTML()}
+          style={this.props.zoom ? this.getFull() : {}}
         />
+
       </div>
     );
   }
@@ -83,7 +164,7 @@ class Preview extends React.Component {
 class MarkdownPreviewer extends React.Component {
   state = {
     markdown: "",
-    zoomEditor: false, 
+    zoomEditor: false,
     zoomPreview: false
   }
 
@@ -114,23 +195,48 @@ class MarkdownPreviewer extends React.Component {
     this.setState({ markdown: startMarkdown })
   }
 
+  changeState = (type) => {
+    if (!type) {
+      this.setState((prevState, props) => {
+        return { zoomEditor: !prevState.zoomEditor }
+      });
+    }
+    else {
+      this.setState((prevState, props) => {
+        return { zoomPreview: !prevState.zoomPreview }
+      });
+    }
+  }
+
   render() {
+    const fullscreen = {
+      gridTemplateRows: "1fr",
+    }
+
     return (
-      <div className="MarkdownPreviewer">
-        { !this.zoomPreview && 
+      <div
+        style={
+          this.state.zoomEditor || this.state.zoomPreview ?
+            fullscreen : {}
+        }
+        className="MarkdownPreviewer"
+      >
+        {!this.state.zoomPreview &&
           <Editor
             text={this.state.markdown}
             changeMarkdown={this.changeMarkdown}
             title={"Editor"}
-            zoom={this.zoomEditor}
+            zoom={this.state.zoomEditor}
+            changeState={this.changeState}
           />
         }
 
-        { !this.zoomEditor &&
+        {!this.state.zoomEditor &&
           <Preview
             text={this.state.markdown}
             title={"Preview"}
-            zoom={this.zoomPreview}
+            zoom={this.state.zoomPreview}
+            changeState={this.changeState}
           />
         }
       </div>

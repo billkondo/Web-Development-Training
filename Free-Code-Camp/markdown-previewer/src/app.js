@@ -7,6 +7,16 @@ class Header extends React.Component {
   render() {
     return (
       <div className="Header">
+        <div>
+          <i className="fab fa-free-code-camp icon-page fa-lg"></i>
+          <div className="text-header"> {this.props.title} </div>
+
+          {
+            this.props.zoom ? 
+            <i className="far fa-window-restore fa-lg header-button"></i> :
+            <i className="far fa-window-maximize fa-lg header-button"></i>
+          }
+        </div>
       </div>
     );
   }
@@ -18,7 +28,9 @@ class Editor extends React.Component {
 
     return (
       <div className="Editor">
-        <Header />
+        <Header 
+          title={this.props.title}
+        />
 
         <textarea id="editor"
           value={startValue}
@@ -56,7 +68,9 @@ class Preview extends React.Component {
   render() {
     return (
       <div className="Preview">
-        <Header />
+        <Header 
+          title={this.props.title}
+        />
 
         <div id="preview"
           dangerouslySetInnerHTML={this.getHTML()}
@@ -68,7 +82,9 @@ class Preview extends React.Component {
 
 class MarkdownPreviewer extends React.Component {
   state = {
-    markdown: ""
+    markdown: "",
+    zoomEditor: false, 
+    zoomPreview: false
   }
 
   changeMarkdown = (text) => {
@@ -101,13 +117,22 @@ class MarkdownPreviewer extends React.Component {
   render() {
     return (
       <div className="MarkdownPreviewer">
-        <Editor
-          text={this.state.markdown}
-          changeMarkdown={this.changeMarkdown}
-        />
-        <Preview
-          text={this.state.markdown}
-        />
+        { !this.zoomPreview && 
+          <Editor
+            text={this.state.markdown}
+            changeMarkdown={this.changeMarkdown}
+            title={"Editor"}
+            zoom={this.zoomEditor}
+          />
+        }
+
+        { !this.zoomEditor &&
+          <Preview
+            text={this.state.markdown}
+            title={"Preview"}
+            zoom={this.zoomPreview}
+          />
+        }
       </div>
     );
   }

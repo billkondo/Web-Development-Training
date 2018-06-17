@@ -61,7 +61,7 @@ html, body {
 }
 
 html {
-  overflow: scroll-y;
+  overflow: hidden;
 }
 
 #app {
@@ -84,6 +84,9 @@ html {
 
   border: 1px solid black;
   border-bottom: none; 
+
+  padding-top: 5px;
+  padding-left: 2px;  
 }
 
 .Editor {
@@ -115,7 +118,7 @@ textarea {
 .Preview {
   display: block;
   justify-self: center;
-  width: 50%;
+  width: 60%;
   max-height: 100%;
   margin-top: 20px;
 }
@@ -123,7 +126,7 @@ textarea {
 #preview {
   position: absolute;
   width: inherit;
-  height: 60%;
+  height: 70%;
   border: 1px solid black;
   border-top: none; 
   overflow: auto;
@@ -131,6 +134,26 @@ textarea {
   padding: 30px;
   color: #333;
   background-color: $colorEditor;
+}
+
+.icon-page {
+  display: inline-block;
+  color: darkblue;
+}
+
+.text-header {
+  color: darkblue;
+  font-size: 20px;
+  display: inline-block;
+  margin-left: 20px;
+  font-weight: bold;
+}
+
+.header-button {
+  color: darkblue;
+  float: right;
+  margin-right: 5px;
+  margin-top: 3px; 
 }
 
 #preview {
@@ -207,5 +230,71 @@ textarea {
   strong {
     font-weight: bold; 
   }
+}
 
+@media (max-width: 800px) {
+  .Editor {
+    width: 80%;
+  }
+  .Preview{
+    width: 100%;
+  }
+  #editor {
+    font-size: 13px;
+  }
+  #preview {
+    height: 100%;
+  }
+  .text-header {
+    font-size: 15px;
+    letter-spacing: -0.5px;
+  }
+  #preview {
+    h1, h2, h3, h4, h5, h6 {
+      margin-bottom: 20px; 
+    }
+  
+    h1 {
+      font-size: 20px;
+      border-bottom: 2px solid darkblue;    
+    }
+  
+    h2 {
+      font-size: 18px;
+      border-bottom: 1px solid darkblue; 
+    }
+  
+    h3 { font-size: 16px; }
+    h4 { font-size: 14px; }
+    h5 { font-size: 12px; }
+    h6 { font-size: 10px; }
+  
+    pre {
+      display: block;
+      background-color: white; 
+      margin-bottom: 20px;
+      margin-top: 20px;
+      font-size: 15px;
+  
+      padding: 10px;
+      font-weight: bold;
+    }
+  
+    code {
+      display: inline-block;
+      background: white;
+      font-weight: bold;
+      font-size: 17px;
+      padding: 5px;
+    }
+  
+    p {
+      font-size: 17px; 
+      margin-bottom: 10px; 
+    }
+
+    li {
+      font-size: 17px;
+    }
+  }
 }

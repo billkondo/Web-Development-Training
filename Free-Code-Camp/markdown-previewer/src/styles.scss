@@ -57,11 +57,15 @@ $backgroundHTML: lightcyan;
 html, body {
   display: block;
   height: 100%;
+  background-color:  $backgroundHTML;
+}
+
+html {
   overflow: scroll-y;
 }
 
 #app {
-  height: 100%;
+  height: 100%; 
 }
 
 .MarkdownPreviewer {
@@ -97,7 +101,7 @@ textarea {
   outline: none;
   resize: vertical;
 
-  font-size: 20px;
+  font-size: 15px;
   padding-top: 20px; 
   background-color: $colorEditor; 
 }
@@ -111,7 +115,7 @@ textarea {
 .Preview {
   display: block;
   justify-self: center;
-  width: 70%;
+  width: 50%;
   max-height: 100%;
   margin-top: 20px;
 }
@@ -125,10 +129,83 @@ textarea {
   overflow: auto;
 
   padding: 30px;
+  color: #333;
+  background-color: $colorEditor;
 }
 
 #preview {
-  h1 {
-    color: greenyellow;
+  h1, h2, h3, h4, h5, h6 {
+    margin-bottom: 30px; 
   }
+
+  h1 {
+    font-size: 55px;
+    border-bottom: 3px solid darkblue;    
+  }
+
+  h2 {
+    font-size: 45px;
+    border-bottom: 2px solid darkblue; 
+  }
+
+  h3 { font-size: 40px; }
+  h4 { font-size: 35px; }
+  h5 { font-size: 30px; }
+  h6 { font-size: 25px; }
+
+  pre {
+    display: block;
+    background-color: white; 
+    margin-bottom: 20px;
+    margin-top: 20px;
+    font-size: 25px;
+
+    padding: 10px;
+    font-weight: bold;
+  }
+
+  code {
+    display: inline-block;
+    background: white;
+    font-weight: bold;
+    font-size: 25px;
+    padding: 5px;
+  }
+
+  p {
+    font-size: 25px; 
+    margin-bottom: 10px; 
+  }
+
+  ul {
+    list-style-type: square;
+    list-style-position: inside;
+    margin-bottom: 20px;
+  }
+  
+  ol {
+    list-style-type: upper-roman;
+    list-style-position: inside;
+    margin-bottom: 20px;
+  }
+
+  li {
+    font-size: 25px;
+  }
+
+  blockquote {
+    font-family: cursive;
+    background-color: lightgray;
+    padding-left: 40px;  
+    border-left: 7px solid darkgray;
+  }
+
+  em {
+    font-style: italic;
+  }
+
+  strong {
+    font-weight: bold; 
+  }
+
 }

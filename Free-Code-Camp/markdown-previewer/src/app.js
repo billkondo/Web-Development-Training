@@ -32,8 +32,25 @@ class Editor extends React.Component {
 class Preview extends React.Component {
   getHTML = () => {
     return {
-      __html: marked(this.props.text)
+      __html: marked(this.props.text, {
+        breaks: true
+      })
     };
+  }
+
+  correctLinks = () => {
+    let links = document.getElementById('preview').getElementsByTagName('a');
+
+    for (let i = 0; i < links.length; i++) 
+      links[i].target = "_blank";
+  }
+
+  componentDidMount() {
+    this.correctLinks();
+  }
+
+  componentDidUpdate() {
+    this.correctLinks();
   }
 
   render() {
@@ -66,7 +83,7 @@ class MarkdownPreviewer extends React.Component {
       `# Welcome to Markdown Previewer
       \n## Write markdown in this screen
       \nTo remember the markdown syntax, check this [link](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet).
-      \nTo write inline code, we put the code between back-ticks. Like in this example: \`<div><div>\`.
+      \nTo write inline code, we put the code between back-ticks. Like in this example: \`<div></div>\`.
       \n${str}\n${comment} This is a block code\n\nlet msg = "Hello World!"\nalert(msg)\n\n${str}
       \nExample of lists:
       \n* Use Asterisk for unordered lists\n+ You can also use pluses\n- And minuses\n

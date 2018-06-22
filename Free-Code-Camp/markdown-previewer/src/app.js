@@ -3,42 +3,52 @@ import ReactDOM from 'react-dom';
 
 import './styles.scss';
 
-class Header extends React.Component {
-  render() {
-    const type = this.props.type;
+const Header = (props) => {
+  const type = props.type;
+  const inSmallScreen = window.matchMedia("(max-width: 800px)").matches;
 
-    return (
-      <div className="Header">
-        <div>
-          <i className="fab fa-free-code-camp icon-page fa-lg"></i>
-          <div className="text-header"> {this.props.title} </div>
+  return (
+    <div className="Header">
+      <div>
+        <i className="fab fa-free-code-camp icon-page fa-lg" />
+        <div className="text-header"> {(!props.doubleView || !inSmallScreen) && props.title} </div>
 
-          {
-            this.props.zoom ?
-              <i
-                className="far fa-window-restore fa-lg header-button"
-                onClick={() => this.props.changeState(type)}
-              /> :
-              <i
-                className="far fa-window-maximize fa-lg header-button"
-                onClick={() => this.props.changeState(type)}
-              />
-          }
-        </div>
+        {
+          props.zoom ?
+            <i
+              className="far fa-window-restore fa-lg header-button"
+              onClick={() => props.changeState(type)}
+            /> :
+            <i
+              className="far fa-window-maximize fa-lg header-button"
+              onClick={() => props.changeState(type)}
+            />
+        }
+
+        {
+          !props.zoom && !props.type &&
+          <i
+            className="fas fa-th-large header-button fa-lg"
+            onClick={props.toggleView}
+          />
+        }
       </div>
-    );
-  }
+    </div>
+  );
+
 }
 
-class Editor extends React.Component {
-  getFullScreen = () => {
+const Editor = (props) => {
+  const getFullScreen = () => {
+    if (!props.zoom && !props.doubleView)
+      return {};
+
     const fullscreen = {
       height: "95%",
       width: "80%",
     }
 
-    if (window.matchMedia("(max-width: 800px)").matches) {
-      console.log('aki');
+    if (window.matchMedia("(max-width: 800px)").matches || props.doubleView) {
       fullscreen.height = "100%";
       fullscreen.width = "100%";
       fullscreen.margin = "0";
@@ -47,36 +57,38 @@ class Editor extends React.Component {
     return fullscreen;
   }
 
-  render() {
-    const startValue = this.props.text;
+  const startValue = props.text;
 
-    const full = {
-      height: "100%",
-      padding: "30px"
-    }
+  let styles = {};
 
-    return (
-      <div
-        style={this.props.zoom ? this.getFullScreen() : {}}
-        className="Editor"
-      >
-
-        <Header
-          title={this.props.title}
-          changeState={this.props.changeState}
-          zoom={this.props.zoom}
-          type={0}
-        />
-
-        <textarea id="editor"
-          value={startValue}
-          onChange={(e) => this.props.changeMarkdown(e.target.value)}
-          style={this.props.zoom ? full : {}}
-        />
-
-      </div>
-    );
+  const full = {
+    height: "100%",
+    padding: "10px"
   }
+
+  return (
+    <div
+      style={getFullScreen()}
+      className="Editor"
+    >
+
+      <Header
+        title={props.title}
+        changeState={props.changeState}
+        zoom={props.zoom}
+        type={0}
+        toggleView={props.toggleView}
+        doubleView={props.doubleView}
+      />
+
+      <textarea id="editor"
+        value={startValue}
+        onChange={(e) => props.changeMarkdown(e.target.value)}
+        style={props.zoom || props.doubleView ? full : {}}
+      />
+
+    </div>
+  );
 }
 
 class Preview extends React.Component {
@@ -104,27 +116,35 @@ class Preview extends React.Component {
   }
 
   getFullScreen = () => {
+    if (!this.props.zoom && !this.props.doubleView)
+      return {};
+
     const fullscreen = {
       height: "95%",
       width: "80%",
     }
 
-    if (window.matchMedia("(max-width: 800px)").matches) {
+    const superWidth = window.innerWidth / 2;
+
+    if (window.matchMedia("(max-width: 800px)").matches || this.props.doubleView) {
       fullscreen.height = "100%";
       fullscreen.width = "100%";
       fullscreen.margin = "0";
     }
+
+    if (this.props.doubleView)
+      fullscreen.width = `${superWidth}px`;
 
     return fullscreen;
   }
 
   getFull = () => {
     const full = {
-      height: "95%",
-      padding: "30px"
+      padding: "10px",
+      maxHeight: "100%",
     }
 
-    if (window.matchMedia("(max-width: 800px)").matches) {
+    if (window.matchMedia("(max-width: 800px)").matches || this.props.doubleView) {
       full.height = "100%";
       full.margin = "0";
     }
@@ -133,14 +153,9 @@ class Preview extends React.Component {
   }
 
   render() {
-    const full = {
-      height: "95%",
-      padding: "30px"
-    }
-
     return (
       <div
-        style={this.props.zoom ? this.getFullScreen() : {}}
+        style={this.getFullScreen()}
         className="Preview"
       >
 
@@ -149,11 +164,12 @@ class Preview extends React.Component {
           changeState={this.props.changeState}
           zoom={this.props.zoom}
           type={1}
+          doubleView={this.props.doubleView}
         />
 
         <div id="preview"
           dangerouslySetInnerHTML={this.getHTML()}
-          style={this.props.zoom ? this.getFull() : {}}
+          style={this.props.zoom || this.props.doubleView ? this.getFull() : {}}
         />
 
       </div>
@@ -165,12 +181,34 @@ class MarkdownPreviewer extends React.Component {
   state = {
     markdown: "",
     zoomEditor: false,
-    zoomPreview: false
+    zoomPreview: false,
+    doubleView: false
   }
 
   changeMarkdown = (text) => {
     this.setState({ markdown: text });
   }
+
+  changeState = (type) => {
+    if (!type) {
+      this.setState((prevState, props) => {
+        return { zoomEditor: !prevState.zoomEditor }
+      });
+    }
+    else {
+      this.setState((prevState, props) => {
+        return { zoomPreview: !prevState.zoomPreview }
+      });
+    }
+  }
+
+  doubleViewToggle = () => {
+    this.setState((prevState) => {
+      return { doubleView: !prevState.doubleView }
+    });
+  }
+
+  updatePage = () => this.forceUpdate();
 
   componentWillMount() {
     const str = "```";
@@ -192,33 +230,38 @@ class MarkdownPreviewer extends React.Component {
       \n* Italics: *asterisks* or _underscores_\n* Bold: **asteriks** or __underscores__\n* Mix: **asterisks and _underscores_**\n* Strikethrough: ~~two tildes~~
       `;
 
-    this.setState({ markdown: startMarkdown })
+    this.setState({ markdown: startMarkdown });
   }
 
-  changeState = (type) => {
-    if (!type) {
-      this.setState((prevState, props) => {
-        return { zoomEditor: !prevState.zoomEditor }
-      });
-    }
-    else {
-      this.setState((prevState, props) => {
-        return { zoomPreview: !prevState.zoomPreview }
-      });
-    }
+  componentDidMount() {
+    window.addEventListener('resize', this.updatePage);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updatePage);
   }
 
   render() {
+    let styles = {};
+
     const fullscreen = {
-      gridTemplateRows: "1fr",
+      gridTemplateRows: "1fr"
     }
+
+    const doubleScreen = {
+      gridTemplateRows: "1fr",
+      gridTemplateColumns: "1fr 1fr"
+    }
+
+    if (this.state.zoomEditor || this.state.zoomPreview)
+      styles = fullscreen;
+    else
+      if (this.state.doubleView)
+        styles = doubleScreen;
 
     return (
       <div
-        style={
-          this.state.zoomEditor || this.state.zoomPreview ?
-            fullscreen : {}
-        }
+        style={styles}
         className="MarkdownPreviewer"
       >
         {!this.state.zoomPreview &&
@@ -228,6 +271,8 @@ class MarkdownPreviewer extends React.Component {
             title={"Editor"}
             zoom={this.state.zoomEditor}
             changeState={this.changeState}
+            toggleView={this.doubleViewToggle}
+            doubleView={this.state.doubleView}
           />
         }
 
@@ -237,6 +282,7 @@ class MarkdownPreviewer extends React.Component {
             title={"Preview"}
             zoom={this.state.zoomPreview}
             changeState={this.changeState}
+            doubleView={this.state.doubleView}
           />
         }
       </div>

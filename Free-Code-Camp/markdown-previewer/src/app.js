@@ -132,7 +132,7 @@ class Preview extends React.Component {
       fullscreen.margin = "0";
     }
 
-    if (this.props.doubleView)
+    if (this.props.doubleView && !this.props.zoom)
       fullscreen.width = `${superWidth}px`;
 
     return fullscreen;

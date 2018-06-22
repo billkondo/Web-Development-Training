@@ -110,6 +110,7 @@ const Buttons = (props) => {
 const Volume = (props) => {
   return (
     <div id="volume">
+      <i className="fas fa-volume-up fa-2x icon"></i>
       <input
         type="range"
         onChange={props.updateVolume}
@@ -122,12 +123,19 @@ const Volume = (props) => {
 }
 
 const Options = (props) => {
+  const invisible = {
+    display: "none"
+  }
+
   return (
     <div id="options"
       onClick={props.flipOption}
     >
-      <input type="radio" name="left" disabled={!props.on} checked={!props.option} />
-      <input type="radio" name="right" disabled={!props.on} checked={props.option} />
+      <label> Mode </label>
+      <div id="box-options"> 
+        <input id="left-radio" type="radio" name="left" disabled={!props.on} checked={!props.option} style={props.option ? invisible : {}} />
+        <input id="right-radio" type="radio" name="right" disabled={!props.on} checked={props.option} style={!props.option ? invisible : {}} />
+      </div>
     </div>
   );
 }
@@ -215,13 +223,23 @@ class DrumMachine extends React.Component {
   updateVolume = (e) => {
     this.setState({
       volume: e.target.value,
-      nameToDisplay: `Volume: ${e.target.value}%`
+      nameToDisplay: `Volume: ${e.target.value}%`,
+      borderColor: "#391285"
     });
   }
 
   flipOption = (e) => {
     this.setState((prevState) => {
-      return { option: !prevState.option }
+      let newMode = "Melody Mode";
+      
+      if (!prevState.option)
+        newMode = "Percussion Mode";
+
+      return { 
+        option: !prevState.option,
+        borderColor: "#391285",
+        nameToDisplay: newMode
+      }
     });
   }
 

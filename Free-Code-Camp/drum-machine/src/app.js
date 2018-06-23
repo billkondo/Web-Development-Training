@@ -7,27 +7,53 @@ const idArray = ['Q', 'W', 'E', 'A', 'S', 'D', 'Z', 'X', 'C'];
 const keyCodeArray = [81, 87, 69, 65, 83, 68, 90, 88, 67];
 
 const nameArray = [
-  'Heater 1.0',
-  'Heater 2.0',
-  'Heater 3.0',
-  'Heater 4.1',
-  'Heater 6.0',
-  'Chord 1.0',
-  'Chord 2.0',
-  'Chord 3.0',
-  'Guitar Chord'
+  [
+    'Heater 1.0',
+    'Heater 2.0',
+    'Heater 3.0',
+    'Heater 4.1',
+    'Heater 6.0',
+    'Chord 1.0',
+    'Chord 2.0',
+    'Chord 3.0',
+    'Guitar Chord'
+  ],
+  [
+    'Disc',
+    'Kick n Hat',
+    'RP4 Kick',
+    'Dry Ohh',
+    'Punchy Kick',
+    'Side Stick',
+    'Bass Drum 1.0',
+    'Bass Drum 2.0',
+    'Bass Drum 3.0'
+  ]
 ];
 
 const urlArray = [
-  'https://s3.amazonaws.com/freecodecamp/drums/Heater-1.mp3',
-  'https://s3.amazonaws.com/freecodecamp/drums/Heater-2.mp3',
-  'https://s3.amazonaws.com/freecodecamp/drums/Heater-3.mp3',
-  'https://s3.amazonaws.com/freecodecamp/drums/Heater-4_1.mp3',
-  'https://s3.amazonaws.com/freecodecamp/drums/Heater-6.mp3',
-  'https://s3.amazonaws.com/freecodecamp/drums/Chord_1.mp3',
-  'https://s3.amazonaws.com/freecodecamp/drums/Chord_2.mp3',
-  'https://s3.amazonaws.com/freecodecamp/drums/Chord_3.mp3',
-  'http://scruss.com/wordpress/wp-content/uploads/2017/12/chord-G.wav'
+  [
+    'https://s3.amazonaws.com/freecodecamp/drums/Heater-1.mp3',
+    'https://s3.amazonaws.com/freecodecamp/drums/Heater-2.mp3',
+    'https://s3.amazonaws.com/freecodecamp/drums/Heater-3.mp3',
+    'https://s3.amazonaws.com/freecodecamp/drums/Heater-4_1.mp3',
+    'https://s3.amazonaws.com/freecodecamp/drums/Heater-6.mp3',
+    'https://s3.amazonaws.com/freecodecamp/drums/Chord_1.mp3',
+    'https://s3.amazonaws.com/freecodecamp/drums/Chord_2.mp3',
+    'https://s3.amazonaws.com/freecodecamp/drums/Chord_3.mp3',
+    'http://scruss.com/wordpress/wp-content/uploads/2017/12/chord-G.wav'
+  ],
+  [
+    'https://s3.amazonaws.com/freecodecamp/drums/Dsc_Oh.mp3',
+    'https://s3.amazonaws.com/freecodecamp/drums/Kick_n_Hat.mp3',
+    'https://s3.amazonaws.com/freecodecamp/drums/RP4_KICK_1.mp3',
+    'https://s3.amazonaws.com/freecodecamp/drums/Dry_Ohh.mp3',
+    'https://s3.amazonaws.com/freecodecamp/drums/punchy_kick_1.mp3',
+    'https://s3.amazonaws.com/freecodecamp/drums/side_stick_1.mp3',
+    'http://www.denhaku.com/r_box/sr16/sr16bd/solid%20hl.wav',
+    'http://bigsamples.free.fr/d_kit/bdkick/909_kik6.wav',
+    'http://www.apo33.org/pub/puredata/APO/librairies_PD/recup/patches_obj/theLib/drum-machine/samples/BD01.WAV'
+  ]
 ];
 
 const ColorsArray = [
@@ -57,10 +83,13 @@ const Display = (props) => {
 }
 
 const Button = (props) => {
-  const styles = {
+  let styles = {
     borderColor: `${props.color}`,
     color: `${props.color}`
   }
+
+  if (!props.on)
+    styles.cursor = "default";
 
   return (
     <div
@@ -85,6 +114,8 @@ const Button = (props) => {
 }
 
 const Buttons = (props) => {
+  const type = (props.option) ? 1 : 0;
+
   return (
     <div id="buttons">
       {
@@ -93,12 +124,13 @@ const Buttons = (props) => {
             <Button
               key={curElement}
               id={idArray[index]}
-              name={nameArray[index]}
+              name={nameArray[type][index]}
               mousedown={props.mousedown}
               mouseup={props.mouseup}
-              source={urlArray[index]}
+              source={urlArray[type][index]}
               index={index}
               color={props.on ? ColorsArray[index] : "#1B1B1B"}
+              on={props.on}
             />
           )
         })
@@ -108,33 +140,77 @@ const Buttons = (props) => {
 }
 
 const Volume = (props) => {
+  const stylesVolume = {};
+  const stylesIcon = {};
+  const stylesRange = {};
+
+  if (!props.on) {
+    stylesVolume.backgroundColor = "#1B1B1B";
+    stylesVolume.border = "none";
+    stylesIcon.color = "#353839";
+    stylesRange.backgroundColor = "#353839";
+    
+  }
+
   return (
-    <div id="volume">
-      <i className="fas fa-volume-up fa-2x icon"></i>
+    <div id="volume"
+      style={stylesVolume}
+    >
+      <i
+        className="fas fa-volume-up fa-3x icon"
+        style={stylesIcon}
+      />
       <input
         type="range"
         onChange={props.updateVolume}
         min={0}
         max={100}
         disabled={!props.on}
+        style={stylesRange}
       />
     </div>
   );
 }
 
 const Options = (props) => {
+  let stylesOption = {};
+  let stylesLetter = {};
+  let stylesBox = {};
+  let stylesButton = {};
+
+  if (!props.on) {
+    stylesOption.backgroundColor = "#1B1B1B";
+    stylesOption.border = "none";
+    stylesLetter.color = "#353839";
+    stylesBox.backgroundColor = "#353839";
+    stylesButton.backgroundColor = "#676767";
+  }
+
   const invisible = {
     display: "none"
   }
 
   return (
     <div id="options"
-      onClick={props.flipOption}
+      style={stylesOption}
     >
-      <label> Mode </label>
-      <div id="box-options"> 
-        <input id="left-radio" type="radio" name="left" disabled={!props.on} checked={!props.option} style={props.option ? invisible : {}} />
-        <input id="right-radio" type="radio" name="right" disabled={!props.on} checked={props.option} style={!props.option ? invisible : {}} />
+      <label style={stylesLetter}> Mode </label>
+      <div style={stylesBox} id="box-options">
+        <input
+          onClick={props.flipOption}
+          id="left-radio"
+          type="radio"
+          disabled={!props.on}
+          style={props.option ? invisible : stylesButton}
+        />
+
+        <input
+          onClick={props.flipOption}
+          id="right-radio"
+          type="radio"
+          disabled={!props.on}
+          style={!props.option ? invisible : stylesButton}
+        />
       </div>
     </div>
   );
@@ -151,7 +227,26 @@ const Power = (props) => {
 }
 
 const Control = (props) => {
-  
+  return (
+    <div id="control">
+      <Power
+        on={props.on}
+        flip={props.flipState}
+      />
+
+      <Options
+        on={props.on}
+        flipOption={props.flipOption}
+        option={props.option}
+      />
+
+      <Volume
+        on={props.on}
+        volume={props.volume}
+        updateVolume={props.updateVolume}
+      />
+    </div>
+  );
 }
 
 class DrumMachine extends React.Component {
@@ -171,7 +266,7 @@ class DrumMachine extends React.Component {
   }
 
   mouseDown = (soundName, index) => {
-    if(this.state.on) {
+    if (this.state.on) {
       this.setState({
         nameToDisplay: soundName,
         borderColor: ColorsArray[index]
@@ -183,16 +278,18 @@ class DrumMachine extends React.Component {
   }
 
   mouseUp = (index) => {
-    if(this.state.on) 
+    if (this.state.on)
       document.getElementById(idArray[index]).classList.toggle('buttonPressed');
   }
 
   keyDown = (e) => {
     if (this.state.on) {
+      const type = (this.state.option) ? 1 : 0;
+
       for (let i = 0; i < keyCodeArray.length; i++)
         if (keyCodeArray[i] === e.keyCode) {
           this.setState({
-            nameToDisplay: nameArray[i],
+            nameToDisplay: nameArray[type][i],
             borderColor: ColorsArray[i]
           });
 
@@ -205,17 +302,18 @@ class DrumMachine extends React.Component {
   keyUp = (e) => {
     if (this.state.on) {
       for (let i = 0; i < keyCodeArray.length; i++)
-        if (keyCodeArray[i] === e.keyCode) 
+        if (keyCodeArray[i] === e.keyCode)
           document.getElementById(idArray[i]).classList.toggle('buttonPressed');
     }
   }
 
   flipState = () => {
     this.setState((prevState) => {
-      return { 
+      const nextColor = (!prevState.on) ? "#61dafb" : "black";
+      return {
         on: !prevState.on,
         nameToDisplay: "",
-        borderColor: "black"
+        borderColor: nextColor
       };
     });
   }
@@ -229,13 +327,16 @@ class DrumMachine extends React.Component {
   }
 
   flipOption = (e) => {
+    if (!this.state.on)
+      return;
+
     this.setState((prevState) => {
       let newMode = "Melody Mode";
-      
+
       if (!prevState.option)
         newMode = "Percussion Mode";
 
-      return { 
+      return {
         option: !prevState.option,
         borderColor: "#391285",
         nameToDisplay: newMode
@@ -256,9 +357,13 @@ class DrumMachine extends React.Component {
   render() {
     return (
       <div id="drum-machine">
-        <Power
+        <Control
           on={this.state.on}
-          flip={this.flipState}
+          flipState={this.flipState}
+          volume={this.state.volume}
+          updateVolume={this.updateVolume}
+          flipOption={this.flipOption}
+          option={this.state.option}
         />
 
         <Display
@@ -271,17 +376,6 @@ class DrumMachine extends React.Component {
           mousedown={this.mouseDown}
           mouseup={this.mouseUp}
           on={this.state.on}
-        />
-
-        <Volume
-          on={this.state.on}
-          volume={this.state.volume}
-          updateVolume={this.updateVolume}
-        />
-
-        <Options 
-          on={this.state.on}
-          flipOption={this.flipOption}
           option={this.state.option}
         />
       </div>

@@ -148,7 +148,6 @@ const Volume = (props) => {
     stylesVolume.backgroundColor = "#1B1B1B";
     stylesVolume.border = "none";
     stylesIcon.color = "#353839";
-    stylesRange.backgroundColor = "#353839";
   }
 
   let sizeIcon = "fa-3x";

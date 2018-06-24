@@ -149,15 +149,19 @@ const Volume = (props) => {
     stylesVolume.border = "none";
     stylesIcon.color = "#353839";
     stylesRange.backgroundColor = "#353839";
-    
   }
+
+  let sizeIcon = "fa-3x";
+
+  if (window.matchMedia("(max-width: 700px)").matches)
+    sizeIcon = "fa-lg";
 
   return (
     <div id="volume"
       style={stylesVolume}
     >
       <i
-        className="fas fa-volume-up fa-3x icon"
+        className={`fas fa-volume-up ${sizeIcon} icon`}
         style={stylesIcon}
       />
       <input
@@ -344,14 +348,18 @@ class DrumMachine extends React.Component {
     });
   }
 
+  resizeWindow = () => this.forceUpdate();
+
   componentDidMount() {
     window.addEventListener('keydown', this.keyDown);
     window.addEventListener('keyup', this.keyUp);
+    window.addEventListener('resize', this.resizeWindow);
   }
 
   componentWillUnmount() {
     window.removeEventListener('keydown', this.keyDown);
-    window.addEventListener('keyup', this.keyUp);
+    window.removeEventListener('keyup', this.keyUp);
+    window.removeEventListener('resize', this.resizeWindow);
   }
 
   render() {

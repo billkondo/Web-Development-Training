@@ -59,6 +59,7 @@ html, body {
 
 #app {
   height: 100%;
+  width: 100%;
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr;
@@ -382,9 +383,120 @@ html, body {
   margin-bottom: 40px;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 700px) {
   #drum-machine {
-    width: 100%;
-    height: 75%;
+    width: 100vw;
+  }
+  #power, #options, #volume {
+    margin-left: 15px;
+    width: 28vw;
+  }
+
+  #power {
+    justify-self: start;
+  }
+
+  #options lable {
+    font-size: 20px;
+  }
+
+  #box-options {
+    width: 20vw;
+  }
+
+  #box-options input {
+    width: 7vw;
+  }
+
+  #volume input {
+    width: 20vw;
+  }
+
+  #volume input::-webkit-slider-thumb {
+    height: 35px;
+  }
+  
+  #volume input:disabled::-webkit-slider-thumb {
+    height: 35px;
+  }
+}
+
+@media (max-width: 450px) {
+  #drum-machine {
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-columns: 1fr; 
+  }
+
+  #display {
+    grid-column: 1/2;
+    grid-row: 1/2;
+  }
+
+  #buttons {
+    grid-column: 1/2;
+    grid-row: 2/3;
+  }
+
+  #control {
+    grid-column: 1/2;
+    grid-row: 3/4;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr;
+  }
+
+  #power, #options, #volume { margin: 0;}
+
+  #power {
+    width: 100px;
+    justify-self: end;
+  }
+
+  #options {
+    width: 100px;
+    justify-self: center;
+  }
+
+  #volume {
+    justify-self: start;
+  }
+
+  #options {
+    height: 60px;
+  }
+
+  #options label {
+    margin: 3px;
+    font-size: 17px;
+  }
+
+  #box-options {
+    width: 80px;
+    height: 25px;
+  }
+  
+  #box-options > input{
+    height: 20px;
+    width: 30px;
+  }
+
+  #volume {
+    padding-top: 20px; 
+    height: 60px;
+    width: 100px;
+  }
+
+  #volume input {
+    width: 50px;
+  }
+    
+  #volume input::-webkit-slider-thumb {
+    height: 35px;
+  }
+  
+  #volume input:disabled::-webkit-slider-thumb {
+    height: 35px;
   }
 }

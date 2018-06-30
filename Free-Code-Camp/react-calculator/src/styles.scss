@@ -1,0 +1,143 @@
+/* 
+  http://meyerweb.com/eric/tools/css/reset/ 
+  v2.0 | 20110126
+  License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body, #app {
+  height: 100%;
+  width: 100%;
+}
+
+#calculator {
+  height: 500px;
+  width: 400px;
+  background: rgba(0, 0, 0, 0.7);
+  margin: 200px auto;
+  
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 3fr;
+}
+
+#buttons {
+  display: grid;
+  grid-auto-columns: 1fr;
+  grid-auto-rows: 1fr; 
+  grid-gap: 1px;
+  grid-template-areas:  
+    "ac c back divide"
+    "seven eight nine multiply"
+    "four five six subtract"
+    "one two three add"
+    "zero zero decimal equals"
+}
+
+#clear { grid-area: ac; }
+#equals { grid-area: equals; }
+#add { grid-area: add; }
+#subtract { grid-area: subtract; }
+#divide { grid-area: divide; }
+#multiply { grid-area: multiply; }
+#decimal { grid-area: decimal; }
+#zero { grid-area: zero; }
+#one { grid-area: one; }
+#two { grid-area: two; }  
+#three { grid-area: three; }
+#four { grid-area: four; }
+#five { grid-area: five; }
+#six { grid-area: six; }
+#seven { grid-area: seven; }
+#eight { grid-area: eight; }
+#nine { grid-area: nine; }
+#backspace { grid-area: back; }
+#clear-number { grid-area: c; }
+
+#display {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 2fr;
+}
+
+.button {
+  background-color: lightgrey;
+  color: black;
+  height: 100%;
+  width: 100%;
+}
+
+#clear, #equals, #add, #subtract, #divide, #multiply, #decimal, #zero, #one, #two, #three, #four, #five, #six, #seven, #eight, #nine, #backspace, #clear-number {
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr;
+  align-items: center;
+  justify-items: center; 
+
+  border: 1px solid black;
+}
+
+#clear {
+  background-color: lightcoral; 
+}
+
+#equals {
+  background-color: lightblue;
+}
+
+#buttons {
+  margin-left: 4px;
+  margin-right: 4px;
+  margin-bottom: 5px;
+}
+
+#display {
+  color: white;
+}

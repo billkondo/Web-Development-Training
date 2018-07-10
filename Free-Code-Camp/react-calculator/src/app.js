@@ -268,14 +268,12 @@ const addDecimal = (state) => {
 const removeDigit = (number) => {
   const len = number.length;
 
-  console.log(number);
-
   if (number === errorMessage)
     return "";
 
   if (len) {
-    if (number[len] === '.') {
-      if (len === 2) return "";
+    if (number[len - 1] === '.') {
+      if (len === 2 && number[len - 2] === '0') return "";
       return number.substr(0, len - 1);
     }
 

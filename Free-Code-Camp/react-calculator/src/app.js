@@ -6,7 +6,7 @@ import './styles.scss';
 
 const Equals = ({ onClickEquals }) => (
   <div id="equals" className="button" onClick={() => onClickEquals()}>
-    <i className="fas fa-equals" />
+    =
   </div>
 );
 
@@ -57,7 +57,7 @@ const DECIMALS = connect(
 )(Decimals);
 
 const DisplayInput = ({ input }) => (
-  <div id="display-input">
+  <div id="display">
     {input ? input : "0"}
   </div>
 );
@@ -80,7 +80,7 @@ const DISPLAY_EXPRESSION = connect(
 
 const Display = () => {
   return (
-    <div id="display">
+    <div id="display-all">
       <DISPLAY_EXPRESSION />
       <DISPLAY_INPUT />
     </div>

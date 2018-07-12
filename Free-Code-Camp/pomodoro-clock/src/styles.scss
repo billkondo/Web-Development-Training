@@ -103,6 +103,14 @@ table {
   font-size: 25px;
 }
 
+#break-length, #session-length {
+  font-weight: bold;
+}
+
+#break-decrement, #session-decrement, #break-increment, #session-increment {
+  font-size: 20px;
+}
+
 #timer {
   height: 350px;
   width: 350px;

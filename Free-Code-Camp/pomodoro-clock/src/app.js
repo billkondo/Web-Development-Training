@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom';
 import { Provider, connect } from 'react-redux';
 import { createStore } from 'redux';
 import './styles.scss';
-import { strictEqual } from 'assert';
+
+const alarmLink = "https://www.freesfx.co.uk/rx2/mp3s/5/16901_1461333025.mp3";
 
 const Label = ({ id, label }) => (
   <div id={id}>
@@ -60,51 +61,76 @@ const Settings = () => (
   </div>
 );
 
-const Control = ({ isRunning, resetAll, timerTrigger, idInterval, updateID, timerChange }) => {
-  const timerUpdate = () => setInterval(() => {
-    timerChange();
-  }, 1000)
+class Control extends React.Component {
+  timerUpdate = () => setInterval(() => {
+    this.props.timerChange();
+  }, 1000);
 
-  return (
-    <div id="control">
-      <div
-        id="start-stop"
-        onClick={() => {
-          console.log('click');
+  playSound = () => {
+    const audio = document.getElementById('beep');
 
-          if (isRunning) {
-            clearInterval(idInterval);
-            updateID();
-          }
-          else {
-            const id = timerUpdate();
-            updateID(id);
-          }
+    audio.currentTime = 0;
+    audio.play();
+  }
 
-          timerTrigger();
-        }}
-      >
-        {!isRunning && <i className="fas fa-play" />}
-        {isRunning && <i className="fas fa-pause" />}
+  componentDidUpdate() {
+    if (this.props.timerInSec === 0) {
+      setTimeout(() => {
+        if (this.props.isRunning) {
+          this.props.flipMode();
+          
+          this.playSound();
+        }
+      }, 500);
+    }
+  }
+
+  render() {
+    return (
+      <div id="control">
+        <div
+          id="start-stop"
+          onClick={() => {
+            if (this.props.isRunning) {
+              clearInterval(this.props.idInterval);
+              this.props.updateID();
+            }
+            else {
+              const id = this.timerUpdate();
+              this.props.updateID(id);
+            }
+
+            this.props.timerTrigger();
+          }}
+        >
+          {!this.props.isRunning && <i className="fas fa-play" />}
+          {this.props.isRunning && <i className="fas fa-pause" />}
+        </div>
+
+        <div id="reset" onClick={() => this.props.resetAll()}>
+          <i className="fas fa-sync-alt" />
+        </div>
       </div>
-
-      <div id="reset" onClick={() => resetAll()}>
-        <i className="fas fa-sync-alt" />
-      </div>
-    </div>
-  );
+    );
+  }
 }
 
 const CONTROL = connect(
   (state) => ({
     isRunning: state.running,
-    idInterval: state.idInterval
+    idInterval: state.idInterval,
+    timerInSec: state.timerInSeconds
   }),
   (dispatch) => ({
-    timerTrigger: () => dispatch({ type: 'FLIP' }),
+    timerTrigger: () => {
+      dispatch({ type: 'FLIP' });
+      const audio = document.getElementById('beep');
+      audio.pause();
+    },
     resetAll: () => dispatch({ type: 'RESET' }),
     updateID: (id = -1) => dispatch({ type: 'UPDATE_ID', id }),
-    timerChange: () => dispatch({ type: 'TIMER_DECREMENT' })
+    timerChange: () => dispatch({ type: 'TIMER_DECREMENT' }),
+    flipMode: () => dispatch(({ type: 'FLIP_MODE' }))
   })
 )(Control);
 
@@ -123,13 +149,18 @@ const Timer = ({ length, label }) => (
     <Label id="timer-label" label={label} />
     <div id="time-left">{convertTimer(length)}</div>
     <CONTROL />
+    <audio
+      id="beep"
+      src={alarmLink}
+      volume={1.0}
+    />
   </div>
 );
 
 const TIMER = connect(
   (state) => ({
     length: state.timerInSeconds,
-    label: state.timerType ? 'Session' : 'Break'
+    label: state.timerMode ? 'Session' : 'Break'
   })
 )(Timer);
 
@@ -144,7 +175,7 @@ const PomodoroClock = () => (
 const defaultState = {
   sessionLength: 25,
   breakLength: 5,
-  timerType: true,
+  timerMode: true,
   timerInSeconds: 25 * 60,
   running: false,
   idInterval: -1
@@ -161,31 +192,58 @@ const lengthAction = (add = 0, isBreak) => ({
 // Reducers 
 
 const lengthReducer = (state, action) => {
+  console.log(state);
+  if (state.running)
+    return state;
+
   if (action.isBreak) {
     if (state.breakLength + action.add <= 0 || state.breakLength + action.add > 60)
       return state;
 
+    const newTime = (!state.timerMode) ? (state.breakLength + action.add) * 60 : state.timerInSeconds;
+
     return {
       ...state,
       breakLength: state.breakLength + action.add,
+      timerInSeconds: newTime
     }
   }
 
   if (state.sessionLength + action.add <= 0 || state.sessionLength + action.add > 60)
     return state;
 
+  const newTime = (state.timerMode) ? (state.sessionLength + action.add) * 60 : state.timerInSeconds;
+
   return {
     ...state,
     sessionLength: state.sessionLength + action.add,
-    timerInSeconds: (state.sessionLength + action.add) * 60
+    timerInSeconds: newTime
   }
 }
 
 const timerReducer = (state) => {
   return {
-    ...state, 
+    ...state,
     timerInSeconds: state.timerInSeconds - 1
   }
+}
+
+const modeReducer = (state) => {
+  const newTime = (state.timerMode) ? (state.breakLength * 60) : (state.sessionLength * 60);
+  return {
+    ...state,
+    timerMode: !state.timerMode,
+    timerInSeconds: newTime
+  }
+}
+
+const resetReducer = (state) => {
+  clearInterval(state.idInterval);
+
+  const audio = document.getElementById('beep');
+  audio.pause();
+
+  return defaultState;
 }
 
 const reducer = (state = defaultState, action) => {
@@ -194,7 +252,7 @@ const reducer = (state = defaultState, action) => {
     case 'LENGTH_UPDATE':
       return lengthReducer(state, action);
 
-    case 'FLIP':
+    case 'FLIP': 
       return {
         ...state,
         running: !state.running
@@ -209,8 +267,11 @@ const reducer = (state = defaultState, action) => {
     case 'TIMER_DECREMENT':
       return timerReducer(state);
 
+    case 'FLIP_MODE':
+      return modeReducer(state);
+
     case 'RESET':
-      return defaultState;
+      return resetReducer(state);
 
     default:
       return state;
@@ -220,7 +281,7 @@ const reducer = (state = defaultState, action) => {
 const store = createStore(reducer);
 
 store.subscribe(() => {
-  console.log(store.getState());
+  // console.log(store.getState());
 });
 
 ReactDOM.render(

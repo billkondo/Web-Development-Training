@@ -52,6 +52,10 @@ table {
   box-sizing: border-box;
 }
 
+html {
+  background-color: beige; 
+}
+
 #pomodoro-clock {
   background-color: lightsalmon;
   
@@ -109,6 +113,7 @@ table {
 
 #break-decrement, #session-decrement, #break-increment, #session-increment {
   font-size: 20px;
+  cursor: pointer;
 }
 
 #timer {
@@ -119,6 +124,7 @@ table {
 }
 
 #timer-label {
+  color: #EE34D2;
   height: 50px;
   text-align: center;
   font-size: 50px;
@@ -132,6 +138,10 @@ table {
   margin-top: 10px;
 }
 
+#start-reset {
+  cursor: pointer;
+}
+
 #control {
   display: grid;
   grid-template-rows: 1fr;
@@ -142,4 +152,5 @@ table {
   align-items: center;
   justify-items: center;
   font-size: 50px;
+  cursor: pointer;
 }

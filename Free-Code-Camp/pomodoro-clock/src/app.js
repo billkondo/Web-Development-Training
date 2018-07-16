@@ -68,20 +68,23 @@ class Control extends React.Component {
 
   playSound = () => {
     const audio = document.getElementById('beep');
-
     audio.currentTime = 0;
     audio.play();
   }
 
-  componentDidUpdate() {
+  clearAudio = () => {
+    const audio = document.getElementById('beep');
+    audio.pause();
+    audio.currentTime = 0;
+  }
+
+  componentWillUpdate() {
     if (this.props.timerInSec === 0) {
-      setTimeout(() => {
-        if (this.props.isRunning) {
-          this.props.flipMode();
-          
-          this.playSound();
-        }
-      }, 500);
+      if (this.props.running) {
+        this.props.flipMode();
+
+        this.playSound();
+      }
     }
   }
 
@@ -89,25 +92,29 @@ class Control extends React.Component {
     return (
       <div id="control">
         <div
-          id="start-stop"
-          onClick={() => {
-            if (this.props.isRunning) {
-              clearInterval(this.props.idInterval);
-              this.props.updateID();
-            }
-            else {
-              const id = this.timerUpdate();
-              this.props.updateID(id);
-            }
+          id="start_stop"
+          onClick={
+            () => {
+              if (this.props.running)
+                clearInterval(this.id);
+              else
+                this.id = this.timerUpdate();
 
-            this.props.timerTrigger();
-          }}
+              this.props.timerTrigger();
+            }}
         >
-          {!this.props.isRunning && <i className="fas fa-play" />}
-          {this.props.isRunning && <i className="fas fa-pause" />}
+          {!this.props.running && <i className="fas fa-play" />}
+          {this.props.running && <i className="fas fa-pause" />}
         </div>
 
-        <div id="reset" onClick={() => this.props.resetAll()}>
+        <div id="reset"
+          onClick={
+            () => {
+              clearInterval(this.id)
+              this.clearAudio();
+              this.props.resetAll();
+            }
+          }>
           <i className="fas fa-sync-alt" />
         </div>
       </div>
@@ -117,18 +124,12 @@ class Control extends React.Component {
 
 const CONTROL = connect(
   (state) => ({
-    isRunning: state.running,
-    idInterval: state.idInterval,
+    running: state.running,
     timerInSec: state.timerInSeconds
   }),
   (dispatch) => ({
-    timerTrigger: () => {
-      dispatch({ type: 'FLIP' });
-      const audio = document.getElementById('beep');
-      audio.pause();
-    },
+    timerTrigger: () => dispatch({ type: 'FLIP' }),
     resetAll: () => dispatch({ type: 'RESET' }),
-    updateID: (id = -1) => dispatch({ type: 'UPDATE_ID', id }),
     timerChange: () => dispatch({ type: 'TIMER_DECREMENT' }),
     flipMode: () => dispatch(({ type: 'FLIP_MODE' }))
   })
@@ -141,7 +142,7 @@ const convertTimer = (seconds) => {
   const Minutes = (numberMinutes < 10) ? "0" + numberMinutes : numberMinutes.toString();
   const Seconds = (numberSeconds < 10) ? "0" + numberSeconds : numberSeconds.toString();
 
-  return `${Minutes} : ${Seconds}`;
+  return `${Minutes}:${Seconds}`;
 }
 
 const Timer = ({ length, label }) => (
@@ -149,11 +150,6 @@ const Timer = ({ length, label }) => (
     <Label id="timer-label" label={label} />
     <div id="time-left">{convertTimer(length)}</div>
     <CONTROL />
-    <audio
-      id="beep"
-      src={alarmLink}
-      volume={1.0}
-    />
   </div>
 );
 
@@ -169,6 +165,11 @@ const PomodoroClock = () => (
   <div id="pomodoro-clock">
     <Settings />
     <TIMER />
+    <audio
+      id="beep"
+      src={alarmLink}
+      volume={1.0}
+    />
   </div>
 );
 
@@ -177,8 +178,7 @@ const defaultState = {
   breakLength: 5,
   timerMode: true,
   timerInSeconds: 25 * 60,
-  running: false,
-  idInterval: -1
+  running: false
 }
 
 // Actions
@@ -192,7 +192,6 @@ const lengthAction = (add = 0, isBreak) => ({
 // Reducers 
 
 const lengthReducer = (state, action) => {
-  console.log(state);
   if (state.running)
     return state;
 
@@ -237,31 +236,17 @@ const modeReducer = (state) => {
   }
 }
 
-const resetReducer = (state) => {
-  clearInterval(state.idInterval);
-
-  const audio = document.getElementById('beep');
-  audio.pause();
-
-  return defaultState;
-}
+const resetReducer = () => defaultState;
 
 const reducer = (state = defaultState, action) => {
-  console.log(action);
   switch (action.type) {
     case 'LENGTH_UPDATE':
       return lengthReducer(state, action);
 
-    case 'FLIP': 
+    case 'FLIP':
       return {
         ...state,
         running: !state.running
-      }
-
-    case 'UPDATE_ID':
-      return {
-        ...state,
-        idInterval: action.id
       }
 
     case 'TIMER_DECREMENT':
@@ -271,7 +256,7 @@ const reducer = (state = defaultState, action) => {
       return modeReducer(state);
 
     case 'RESET':
-      return resetReducer(state);
+      return resetReducer();
 
     default:
       return state;
@@ -279,10 +264,6 @@ const reducer = (state = defaultState, action) => {
 }
 
 const store = createStore(reducer);
-
-store.subscribe(() => {
-  // console.log(store.getState());
-});
 
 ReactDOM.render(
   <Provider store={store}>

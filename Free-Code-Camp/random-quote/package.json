@@ -7,10 +7,14 @@
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
-    "live-server": "^1.2.0"
+    "live-server": "^1.2.0",
+    "snyk": "^1.316.1"
   },
   "scripts": {
     "serve": "live-server public/",
-    "build": "babel src/app.js --out-file=public/scripts/app.js --presets=env,react --watch"
-  }
+    "build": "babel src/app.js --out-file=public/scripts/app.js --presets=env,react --watch",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
+  },
+  "snyk": true
 }
